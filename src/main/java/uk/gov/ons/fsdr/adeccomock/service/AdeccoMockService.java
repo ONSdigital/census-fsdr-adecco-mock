@@ -2,8 +2,8 @@ package uk.gov.ons.fsdr.adeccomock.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uk.gov.ons.fsdr.adeccomock.entity.AdeccoResponse;
-import uk.gov.ons.fsdr.adeccomock.entity.AdeccoResponseList;
+import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
+import uk.gov.ons.fsdr.common.dto.AdeccoResponseList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,11 @@ import java.util.List;
 @Slf4j
 public class AdeccoMockService {
 
-  private static AdeccoResponseList adeccoResponseList = new AdeccoResponseList(0, true, new ArrayList<AdeccoResponse>());
+  private static AdeccoResponseList adeccoResponseList = new AdeccoResponseList("0", new ArrayList<AdeccoResponse>());
 
   public AdeccoResponseList getAdeccoResponse() {
 
-    adeccoResponseList.setTotalSize(adeccoResponseList.getRecords().size());
+    adeccoResponseList.setTotalSize(String.valueOf(adeccoResponseList.getRecords().size()));
     return adeccoResponseList;
   }
 

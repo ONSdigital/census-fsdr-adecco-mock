@@ -1,2 +1,37 @@
 server:
   port: 5679
+  servlet:
+    context-path: /
+
+spring:
+application:
+  name: census-fsdr-adecco-mock
+security:
+  user:
+    name: "user"
+    password: "password"
+
+springfox.documentation.swagger.v2.path: "/api-docs"
+
+# Place /info and /health in the root
+management.endpoints.web.base-path: ''
+
+logging:
+level:
+  root: WARN
+  uk.gov.ons.fwmt: INFO
+  org.springframework.security: INFO
+  org.springframework.web: INFO
+  org.springframework.amqp: INFO
+  org.hibernate: INFO
+  org.apache.commons.dbcp2: INFO
+  org.springframework: INFO
+file: target/SpringErrors/spring.log
+pattern:
+  console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] [%X{CID}] %logger{1}::%M - %msg%n"
+  file: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] [%X{CID}] %logger{1}::%M - %msg%n"
+
+customisation:
+  logging:
+    logFlagType:
+      logAllMessages: false

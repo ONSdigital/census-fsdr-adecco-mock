@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import uk.gov.ons.fsdr.adeccomock.entity.AdeccoResponse;
-import uk.gov.ons.fsdr.adeccomock.entity.AdeccoResponseList;
 import uk.gov.ons.fsdr.adeccomock.service.AdeccoMockService;
+import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
+import uk.gov.ons.fsdr.common.dto.AdeccoResponseList;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -17,6 +17,7 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("/adecco-mock")
+@RestController
 public class AdeccoController {
 
   @Autowired AdeccoMockService adeccoMockService;
