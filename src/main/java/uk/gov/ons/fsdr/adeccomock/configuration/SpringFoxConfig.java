@@ -25,9 +25,9 @@ public class SpringFoxConfig {
   }
 
   private ApiInfo apiEndPointsInfo() {
-    return new ApiInfoBuilder().title("FSDR Census Adecco Mock REST API")
+    return new ApiInfoBuilder().title("Mock REST API for FSDR")
         .description("Adecco Mock REST API")
-        .version("1.0.7")
+        .version("0.0.1")
         .build();
   }
 }

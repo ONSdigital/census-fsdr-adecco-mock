@@ -1,35 +1,40 @@
 package uk.gov.ons.fsdr.adeccomock.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.gov.ons.fsdr.adeccomock.managers.ResponseManager;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
-import uk.gov.ons.fsdr.common.dto.AdeccoResponseList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
 public class AdeccoMockService {
 
-  private static AdeccoResponseList adeccoResponseList = new AdeccoResponseList("0", new ArrayList<AdeccoResponse>());
+  @Autowired
+  private ResponseManager responseManager;
 
-  public AdeccoResponseList getAdeccoResponse() {
-
-    adeccoResponseList.setTotalSize(String.valueOf(adeccoResponseList.getRecords().size()));
-    return adeccoResponseList;
+  public List<AdeccoResponse> getAdeccoResponses() {
+    return responseManager.getAllResponses();
   }
 
-  public boolean addContacts(List<AdeccoResponse> newRecords) {
-    List<AdeccoResponse> adeccoRecords = adeccoResponseList.getRecords();
-
-    return adeccoRecords.addAll(newRecords);
+  public void putRecords(List<AdeccoResponse> newRecords) {
+    for (AdeccoResponse record : newRecords) {
+      responseManager.addResponse(record);
+    }
   }
 
-  public boolean clearRecords() {
+  public void clearRecords() {
+    responseManager.reset();
+    log.info("cleared Adecco Responses.");
+  }
 
-    adeccoResponseList.getRecords().clear();
+  public void enableLogger() {
+    responseManager.enableCaseManager();
+  }
 
-    return adeccoResponseList.getRecords().isEmpty();
+  public void disableLogger() {
+    responseManager.disableCaseManager();
   }
 }

@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,10 +24,12 @@ public class ResponseManager {
     logAllMessages = false;
   }
 
+  public List<AdeccoResponse> getAllResponses() {
+    return new ArrayList<>(responseDirectory.values());
+  }
+
   public void addResponse(AdeccoResponse adeccoResponse) {
-    if (logAllMessages) {
-      responseDirectory.put(String.valueOf(adeccoResponse.getAdeccoResponseWorker().getEmployeeId()), adeccoResponse);
-    }
+    responseDirectory.put(String.valueOf(adeccoResponse.getAdeccoResponseWorker().getEmployeeId()), adeccoResponse);
   }
 
   public AdeccoResponse getResponse(String employeeId) {
