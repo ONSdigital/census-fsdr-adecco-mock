@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.ons.fsdr.adeccomock.service.AdeccoMockService;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
+import uk.gov.ons.fsdr.common.dto.AdeccoResponseList;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class AdeccoController {
 //  public ResponseEntity<?> getAllEmployeesFromAdecco(@RequestParam String sql) {
   public ResponseEntity<?> getAllEmployeesFromAdecco(String sql) {
 
-    List<AdeccoResponse> responses =  adeccoService.getAdeccoResponses();
+    AdeccoResponseList responses =  adeccoService.getAdeccoResponses();
     return new ResponseEntity<>(responses, HttpStatus.OK);
   }
 

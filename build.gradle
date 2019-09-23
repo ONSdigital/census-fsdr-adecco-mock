@@ -33,10 +33,7 @@ dependencies {
     compile('io.springfox:springfox-swagger2:2.9.2')
     compile('io.springfox:springfox-swagger-ui:2.9.2')
     compile('io.springfox:springfox-bean-validators:2.9.2')
-//    compile('org.springframework.boot:spring-boot-starter-security')
     compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'
-    compile 'org.springframework.security.oauth:spring-security-oauth2:2.3.6.RELEASE'
-
 }
 
 mainClassName = 'uk.gov.ons.fsdr.adeccomock.AdeccoMock'

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.ons.fsdr.adeccomock.managers.ResponseManager;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
+import uk.gov.ons.fsdr.common.dto.AdeccoResponseList;
 
 import java.util.List;
 
@@ -15,8 +16,18 @@ public class AdeccoMockService {
   @Autowired
   private ResponseManager responseManager;
 
-  public List<AdeccoResponse> getAdeccoResponses() {
-    return responseManager.getAllResponses();
+  public AdeccoResponseList getAdeccoResponses() {
+    AdeccoResponseList adeccoResponseList = new AdeccoResponseList();
+    List<AdeccoResponse> allResponses = responseManager.getAllResponses();
+    adeccoResponseList.setRecords(allResponses);
+    adeccoResponseList.setTotalSize(String.valueOf(allResponses.size()));
+    return adeccoResponseList;
+  }
+
+  public AdeccoResponse getEmployeeById(String employeeId) {
+    AdeccoResponse adeccoResponse;
+    adeccoResponse = responseManager.getResponse(employeeId);
+    return adeccoResponse;
   }
 
   public void putRecords(List<AdeccoResponse> newRecords) {
