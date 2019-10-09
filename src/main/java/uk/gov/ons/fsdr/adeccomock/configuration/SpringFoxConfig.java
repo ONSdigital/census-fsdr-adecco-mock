@@ -13,15 +13,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-@Import({springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class})
 public class SpringFoxConfig {
+  
   @Bean
-  public Docket api() {
-    return new Docket(DocumentationType.SWAGGER_2).select()
-        .apis(RequestHandlerSelectors
-            .basePackage("uk.gov.ons.fsdr.adeccomock.controller"))
-        .paths(PathSelectors.regex("/.*"))
-        .build().apiInfo(apiEndPointsInfo());
+  public Docket api() { 
+      return new Docket(DocumentationType.SWAGGER_2)  
+        .select()                                  
+        .apis(RequestHandlerSelectors.any())              
+        .paths(PathSelectors.any())                          
+        .build();                                           
   }
 
   private ApiInfo apiEndPointsInfo() {

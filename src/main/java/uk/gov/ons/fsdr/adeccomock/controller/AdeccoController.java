@@ -13,6 +13,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/adecco")
 public class AdeccoController {
 
   @Autowired
@@ -27,9 +28,4 @@ public class AdeccoController {
     return new ResponseEntity<>(responses, HttpStatus.OK);
   }
 
-  @PostMapping(path = "/postResponse", consumes = "application/json")
-  public ResponseEntity<?> putAddecoResponse(@RequestBody List<AdeccoResponse> adeccoResponses) {
-    adeccoService.putRecords(adeccoResponses);
-    return new ResponseEntity<>(HttpStatus.OK);
-  }
-}
+ }

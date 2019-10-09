@@ -21,11 +21,12 @@ public class AdeccoMockService {
     List<AdeccoResponse> allResponses = responseManager.getAllResponses();
     adeccoResponseList.setRecords(allResponses);
     adeccoResponseList.setTotalSize(String.valueOf(allResponses.size()));
+    adeccoResponseList.setDone(true);
     return adeccoResponseList;
   }
 
-  public AdeccoResponse getEmployeeById(String employeeId) {
-    AdeccoResponse adeccoResponse;
+  public List<AdeccoResponse> getEmployeeById(String employeeId) {
+    List<AdeccoResponse> adeccoResponse;
     adeccoResponse = responseManager.getResponse(employeeId);
     return adeccoResponse;
   }

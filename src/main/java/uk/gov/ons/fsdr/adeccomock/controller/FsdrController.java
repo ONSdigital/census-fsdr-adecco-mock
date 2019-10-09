@@ -13,18 +13,13 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/fsdr")
 public class FsdrController {
 
   @Autowired
   private AdeccoMockService adeccoService;
 
-  @GetMapping(path = "/getResponse", consumes = "application/json")
-  public ResponseEntity<?> getAddecoResponse() {
-    AdeccoResponseList adeccoResponseList = adeccoService.getAdeccoResponses();
-    return new ResponseEntity<>(adeccoResponseList, HttpStatus.OK);
-  }
-
-  @GetMapping(path = "/getEmployee/")
+   @GetMapping(path = "/getEmployee/")
   private ResponseEntity<?> getAdeccoEmployee(@RequestParam String employeeId){
     adeccoService.getEmployeeById(employeeId);
     return new ResponseEntity<>(HttpStatus.OK);
