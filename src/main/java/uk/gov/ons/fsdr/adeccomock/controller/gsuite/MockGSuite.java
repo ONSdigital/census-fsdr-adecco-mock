@@ -1,0 +1,114 @@
+package uk.gov.ons.fsdr.adeccomock.controller.gsuite;
+
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.zip.GZIPInputStream;
+
+import javax.websocket.server.PathParam;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@RestController
+@RequestMapping("/gsuite")
+public class MockGSuite {
+  private final Map<String, List<String>> gsuiteMessages = new ConcurrentHashMap<>();
+  private final ObjectMapper objectMapper = new ObjectMapper();
+
+  @PostMapping(path = "/groups/{group}/members", consumes = "application/json")
+  public ResponseEntity<String> postMember(@PathParam(value = "group") String group, @RequestBody byte[] body) {
+    try {
+      String extractedMessage = extractMessage(body);
+      JsonNode rootNode = objectMapper.readTree(extractedMessage);
+      JsonNode emailNode = rootNode.path("primaryEmail");
+      String email = emailNode.asText();
+
+      addMessage(email, body);
+      return new ResponseEntity<String>(extractedMessage, HttpStatus.OK);
+    } catch (IOException e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @PostMapping(path = "/users", consumes = "application/json")
+  public ResponseEntity<String> postUser(@RequestBody byte[] body) {
+    try {
+      String extractedMessage = extractMessage(body);
+      JsonNode rootNode = objectMapper.readTree(extractedMessage);
+      JsonNode emailNode = rootNode.path("primaryEmail");
+      String email = emailNode.asText();
+
+      addMessage(email, body);
+      return new ResponseEntity<String>(extractedMessage, HttpStatus.OK);
+    } catch (IOException e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  private String extractMessage(byte[] body) throws IOException {
+    String extractedMessage = "";
+    GZIPInputStream zipIn = new GZIPInputStream(new ByteArrayInputStream(body));
+    extractedMessage = extractFile(zipIn);
+    zipIn.close();
+    return extractedMessage;
+  }
+
+  @GetMapping("/messages/")
+  public ResponseEntity<List<String>> getAllMessages() {
+    List<String> all = new ArrayList<String>();
+    Collection<List<String>> messages = gsuiteMessages.values();
+    for (List<String> list : messages) {
+        all.addAll(list);
+    }
+    return new ResponseEntity<List<String>>(all, HttpStatus.OK);
+  }
+
+  @GetMapping("/messages/{email}")
+  public ResponseEntity<List<String>> getUsersMessages(@PathParam("email") String email) {
+    List<String> messages = gsuiteMessages.get(email);
+    return new ResponseEntity<List<String>>(messages, HttpStatus.OK);
+  }
+
+  @DeleteMapping("/messages/reset")
+  public ResponseEntity<?> delete() {
+    gsuiteMessages.clear();
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  private String extractFile(GZIPInputStream zipIn) throws IOException {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    BufferedOutputStream bos = new BufferedOutputStream(baos);
+    byte[] bytesIn = new byte[8192];
+    int read = 0;
+    while ((read = zipIn.read(bytesIn)) != -1) {
+      bos.write(bytesIn, 0, read);
+    }
+    bos.close();
+    baos.close();
+    return baos.toString();
+  }
+
+  private void addMessage(String email, byte[] body) {
+    List<String> messages = gsuiteMessages.get(email);
+    if (messages == null)
+      messages = new ArrayList<String>();
+    messages.add(new String(body));
+  }
+}
