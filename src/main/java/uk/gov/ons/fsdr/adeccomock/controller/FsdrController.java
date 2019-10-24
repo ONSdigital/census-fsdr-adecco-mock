@@ -13,19 +13,15 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/adecco")
-public class AdeccoController {
+@RequestMapping("/fsdr")
+public class FsdrController {
 
   @Autowired
   private AdeccoMockService adeccoService;
 
-  @GetMapping("/{sqlStatement}")
-  // Below line causes a build error. Not sure if we need the @RequestParam
-//  public ResponseEntity<?> getAllEmployeesFromAdecco(@RequestParam String sql) {
-  public ResponseEntity<?> getAllEmployeesFromAdecco(String sql) {
-
-    AdeccoResponseList responses =  adeccoService.getAdeccoResponses();
-    return new ResponseEntity<>(responses, HttpStatus.OK);
+   @GetMapping(path = "/getEmployee/")
+  private ResponseEntity<?> getAdeccoEmployee(@RequestParam String employeeId){
+    adeccoService.getEmployeeById(employeeId);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
-
- }
+}

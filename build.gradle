@@ -29,6 +29,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    compile("uk.gov.ons:census-fsdr-common:0.0.1-SNAPSHOT")
+    compile('io.springfox:springfox-swagger2:2.9.2')
+    compile('io.springfox:springfox-swagger-ui:2.9.2')
+    compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'
 }
 
 mainClassName = 'uk.gov.ons.fsdr.adeccomock.AdeccoMock'
@@ -36,3 +40,13 @@ group = 'uk.gov.ons'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 11
 targetCompatibility = 11
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    if (!project.hasProperty('omitSDCArtifactory')) {
+        maven { url 'http://artifactory-sdc.onsdigital.uk/artifactory/libs-release-local' }
+        maven { url 'http://artifactory-sdc.onsdigital.uk/artifactory/libs-snapshot-local' }
+    }
+}
+
