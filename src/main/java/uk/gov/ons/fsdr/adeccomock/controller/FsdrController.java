@@ -21,7 +21,7 @@ public class FsdrController {
 
    @GetMapping(path = "/getEmployee/")
   private ResponseEntity<?> getAdeccoEmployee(@RequestParam String employeeId){
-    adeccoService.getEmployeeById(employeeId);
-    return new ResponseEntity<>(HttpStatus.OK);
+     final List<AdeccoResponse> employeeById = adeccoService.getEmployeeById(employeeId);
+     return ResponseEntity.ok(employeeById);
   }
 }
