@@ -15,13 +15,7 @@ import javax.websocket.server.PathParam;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,14 +27,14 @@ public class MockGSuite {
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   @PostMapping(path = "/groups/{group}/members", consumes = "application/json")
-  public ResponseEntity<String> postMember(@PathParam(value = "group") String group, @RequestBody byte[] body) {
+  public ResponseEntity<String> postMember(@PathVariable(value = "group") String group, @RequestBody byte[] body) {
     try {
       String extractedMessage = extractMessage(body);
       JsonNode rootNode = objectMapper.readTree(extractedMessage);
       JsonNode emailNode = rootNode.path("primaryEmail");
       String email = emailNode.asText();
 
-      addMessage(email, body);
+      addMessage(email, extractedMessage);
       return new ResponseEntity<String>(extractedMessage, HttpStatus.OK);
     } catch (IOException e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -55,7 +49,17 @@ public class MockGSuite {
       JsonNode emailNode = rootNode.path("primaryEmail");
       String email = emailNode.asText();
 
-      addMessage(email, body);
+      addMessage(email, extractedMessage);
+      return new ResponseEntity<String>(extractedMessage, HttpStatus.OK);
+    } catch (IOException e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  @PutMapping(path = "/users/{email}", consumes = "application/json")
+  public ResponseEntity<String> putUser(@PathVariable("email") String email, @RequestBody byte[] body) {
+    try {
+      String extractedMessage = extractMessage(body);
+      addMessage(email, extractedMessage);
       return new ResponseEntity<String>(extractedMessage, HttpStatus.OK);
     } catch (IOException e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -81,7 +85,7 @@ public class MockGSuite {
   }
 
   @GetMapping("/messages/{email}")
-  public ResponseEntity<List<String>> getUsersMessages(@PathParam("email") String email) {
+  public ResponseEntity<List<String>> getUsersMessages(@PathVariable("email") String email) {
     List<String> messages = gsuiteMessages.get(email);
     return new ResponseEntity<List<String>>(messages, HttpStatus.OK);
   }
@@ -105,10 +109,11 @@ public class MockGSuite {
     return baos.toString();
   }
 
-  private void addMessage(String email, byte[] body) {
+  private void addMessage(String email, String extractedMessage) {
     List<String> messages = gsuiteMessages.get(email);
-    if (messages == null)
+    if (messages == null);
       messages = new ArrayList<String>();
-    messages.add(new String(body));
+    messages.add(new String(extractedMessage));
+    gsuiteMessages.put(email, messages);
   }
 }
