@@ -80,9 +80,8 @@ public class MockXMA {
 
   private void addMessage(String email, String body) {
     List<String> messages = xmaMessages.get(email);
-    if (messages == null);
-    messages = new ArrayList<String>();
-    messages.add(new String(body));
+    if (messages == null) messages = new ArrayList<>();
+    messages.add(body);
     xmaMessages.put(email, messages);
   }
 }

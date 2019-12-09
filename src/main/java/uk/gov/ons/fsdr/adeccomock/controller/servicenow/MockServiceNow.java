@@ -41,14 +41,14 @@ public class MockServiceNow {
     }
   }
 
-  @GetMapping("/messages/")
+  @GetMapping("/messages")
   public ResponseEntity<List<String>> getAllMessages() {
-    List<String> all = new ArrayList<String>();
+    List<String> all = new ArrayList<>();
     Collection<List<String>> messages = snowMessages.values();
     for (List<String> list : messages) {
         all.addAll(list);
     }
-    return new ResponseEntity<List<String>>(all, HttpStatus.OK);
+    return new ResponseEntity<>(all, HttpStatus.OK);
   }
 
   @GetMapping("/messages/{sysid}")
@@ -65,9 +65,8 @@ public class MockServiceNow {
 
   private void addMessage(String sysid, String body) {
     List<String> messages = snowMessages.get(sysid);
-    if (messages == null) ;
-    messages = new ArrayList<String>();
-    messages.add(new String(body));
+    if(messages == null) messages = new ArrayList<String>();
+    messages.add(body);
     snowMessages.put(sysid, messages);
   }
 }

@@ -76,7 +76,7 @@ public class MockGSuite {
 
   @GetMapping("/messages/")
   public ResponseEntity<List<String>> getAllMessages() {
-    List<String> all = new ArrayList<String>();
+    List<String> all = new ArrayList<>();
     Collection<List<String>> messages = gsuiteMessages.values();
     for (List<String> list : messages) {
         all.addAll(list);
@@ -111,9 +111,8 @@ public class MockGSuite {
 
   private void addMessage(String email, String extractedMessage) {
     List<String> messages = gsuiteMessages.get(email);
-    if (messages == null);
-      messages = new ArrayList<String>();
-    messages.add(new String(extractedMessage));
+    if (messages == null) messages = new ArrayList<String>();
+    messages.add(extractedMessage);
     gsuiteMessages.put(email, messages);
   }
 }
