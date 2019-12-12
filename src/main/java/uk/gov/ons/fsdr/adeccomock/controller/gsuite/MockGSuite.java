@@ -6,6 +6,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @RequestMapping("/gsuite")
 public class MockGSuite {
-  private final Map<String, List<String>> gsuiteMessages = new ConcurrentHashMap<>();
+  private final Map<String, List<String>> gsuiteMessages = Collections.synchronizedMap(new LinkedHashMap());
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   @PostMapping(path = "/groups/{group}/members", consumes = "application/json")
