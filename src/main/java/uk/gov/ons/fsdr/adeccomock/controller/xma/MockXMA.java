@@ -88,7 +88,6 @@ public class MockXMA {
   @PostMapping("/devices/create")
   public ResponseEntity<?> createDevice(@RequestParam(name="roleId") String roleId, @RequestParam(name="phoneNumber") String phoneNumber, @RequestParam(name="Status") String status) {
     if(employeeIds.containsKey(roleId)) {
-      System.out.println(roleId);
       devices.add(createDevice(roleId, employeeIds.get(roleId), phoneNumber, status));
       return new ResponseEntity<>(HttpStatus.OK);
     } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -98,7 +97,6 @@ public class MockXMA {
   public ResponseEntity<DeviceListQuery> getDevices(@RequestParam(name="class_name") String className, @RequestParam(name="v") String version,  @RequestParam(name="attributes") String attributes, @RequestParam(name="page_size") String pageSize) {
     DeviceListQuery deviceListQuery = new DeviceListQuery();
     deviceListQuery.setDataRows(devices);
-    System.out.println(devices.size());
     return new ResponseEntity<DeviceListQuery>(deviceListQuery, HttpStatus.OK);
   }
 
@@ -107,7 +105,6 @@ public class MockXMA {
       @RequestParam(name="attributes") String attributes, @RequestParam(name="page_size") String pageSize, @RequestParam(name="cns") String cns, @RequestParam(name="c0") String c0) {
     DeviceListQuery deviceListQuery = new DeviceListQuery();
     deviceListQuery.setDataRows(devices);
-    System.out.println(devices.size());
     return new ResponseEntity<DeviceListQuery>(deviceListQuery, HttpStatus.OK);
   }
 
@@ -127,7 +124,6 @@ public class MockXMA {
   }
 
   private DataRow createDevice(String roleId, String id, String phoneNumber, String st) {
-    System.out.println(id);
     DataRow device =  new DataRow();
     device.setClassName("Config._MobileDevice");
     DataRowValues dataRowValues = new DataRowValues();
