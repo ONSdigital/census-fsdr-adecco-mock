@@ -19,7 +19,7 @@ import uk.gov.ons.fsdr.common.dto.devicelist.Status;
 @RestController
 @RequestMapping("/xma")
 public class MockXMA {
-  private final Map<String, List<String>> xmaMessages = new ConcurrentHashMap<>();
+  private final Map<String, List<String>> xmaMessages = Collections.synchronizedMap(new LinkedHashMap());
   private final Map<String, String> employeeIds = new ConcurrentHashMap<>();
   private final List<DataRow> devices = new ArrayList<>();
   private final ObjectMapper objectMapper = new ObjectMapper();
@@ -106,6 +106,14 @@ public class MockXMA {
     DeviceListQuery deviceListQuery = new DeviceListQuery();
     deviceListQuery.setDataRows(devices);
     return new ResponseEntity<DeviceListQuery>(deviceListQuery, HttpStatus.OK);
+  }
+
+  @GetMapping("/id")
+  public ResponseEntity<String> getId(@RequestParam(name="roleId") String roleId) {
+    if(employeeIds.containsKey(roleId)) {
+      return new ResponseEntity<String>(employeeIds.get(roleId),HttpStatus.OK);
+    }
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 
   @DeleteMapping("/messages/reset")
