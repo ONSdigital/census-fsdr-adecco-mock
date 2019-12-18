@@ -32,22 +32,28 @@ public class MockXMA {
       Iterator<JsonNode> elements = formValuesNode.elements();
       String id = null;
       String roleId = null;
-
-      while(elements.hasNext()){
-        JsonNode node = elements.next();
-        String name = node.path("name").asText();
-        if ("Name".equals(name)) {
-          id = node.path("value").asText();
-        }
-        if ("_RoleID".equals(name)) {
-          roleId = node.path("value").asText();
-        }
-      }
-      String xmaId = UUID.randomUUID().toString();
       XmaResponse xmaResponse = new XmaResponse();
-      xmaResponse.setKey(xmaId);
 
-      employeeIds.put(roleId, xmaId);
+      if(body.contains("_DeletionUser")) {
+        while(elements.hasNext()){
+          JsonNode node = elements.next();
+          String name = node.path("name").asText();
+          if ("_DeletionUser".equals(name)) {
+            id = node.path("value").asText();
+          }
+        }
+      } else {
+        while (elements.hasNext()) {
+          JsonNode node = elements.next();
+          String name = node.path("name").asText();
+          if ("_RoleID".equals(name)) {
+            roleId = node.path("value").asText();
+          }
+        }
+        id = UUID.randomUUID().toString();
+        employeeIds.put(roleId, id);
+      }
+      xmaResponse.setKey(id);
       addMessage(id, body);
       return new ResponseEntity<XmaResponse>(xmaResponse, HttpStatus.OK);
     } catch (IOException e) {
@@ -55,7 +61,7 @@ public class MockXMA {
     }
   }
 
-  @PatchMapping(path = "/", consumes = "application/json")
+  @PatchMapping(value = "/", consumes = "application/json")
   public ResponseEntity<String> updateEmployee(@RequestBody String body) {
     try {
       JsonNode rootNode = objectMapper.readTree(body);
