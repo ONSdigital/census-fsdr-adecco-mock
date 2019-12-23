@@ -24,7 +24,7 @@ public class MockXMA {
   private final List<DataRow> devices = new ArrayList<>();
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  @PostMapping(consumes = "application/json")
+  @RequestMapping(consumes = "application/json")
   public ResponseEntity<XmaResponse> postEmployee(@RequestParam(name="class_name") String className, @RequestParam(name="v") String version,  @RequestBody String body) {
     try {
       JsonNode rootNode = objectMapper.readTree(body);
@@ -33,7 +33,6 @@ public class MockXMA {
       String id = null;
       String roleId = null;
       XmaResponse xmaResponse = new XmaResponse();
-
       if(body.contains("_DeletionUser")) {
         while(elements.hasNext()){
           JsonNode node = elements.next();
@@ -42,34 +41,22 @@ public class MockXMA {
             id = node.path("value").asText();
           }
         }
-      } else {
-        while (elements.hasNext()) {
-          JsonNode node = elements.next();
-          String name = node.path("name").asText();
-          if ("_RoleID".equals(name)) {
-            roleId = node.path("value").asText();
+      } else if(!body.contains("\"key\":")) {
+          while (elements.hasNext()) {
+            JsonNode node = elements.next();
+            String name = node.path("name").asText();
+            if ("_RoleID".equals(name)) {
+              roleId = node.path("value").asText();
+            }
           }
-        }
-        id = UUID.randomUUID().toString();
-        employeeIds.put(roleId, id);
+          id = UUID.randomUUID().toString();
+          employeeIds.put(roleId, id);
+      } else {
+        id = rootNode.path("key").asText();
       }
       xmaResponse.setKey(id);
       addMessage(id, body);
       return new ResponseEntity<XmaResponse>(xmaResponse, HttpStatus.OK);
-    } catch (IOException e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  @PatchMapping(value = "/", consumes = "application/json")
-  public ResponseEntity<String> updateEmployee(@RequestBody String body) {
-    try {
-      JsonNode rootNode = objectMapper.readTree(body);
-      JsonNode emailNode = rootNode.path("primaryEmail");
-      String email = emailNode.asText();
-
-      addMessage(email, body);
-      return new ResponseEntity<String>(body, HttpStatus.OK);
     } catch (IOException e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
