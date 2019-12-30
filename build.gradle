@@ -29,15 +29,22 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    compile("uk.gov.ons:census-fsdr-common:0.0.1-SNAPSHOT")
+    compile("uk.gov.ons:census-fsdr-common:0.0.3-RELEASE")
     compile('io.springfox:springfox-swagger2:2.9.2')
     compile('io.springfox:springfox-swagger-ui:2.9.2')
     compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'
+    
+    compile 'com.google.api-client:google-api-client:1.23.0'
+	compile 'com.google.apis:google-api-services-admin-directory:directory_v1-rev53-1.20.0'
+    
+    compile 'org.apache.mina:mina-core:1.1.7'
+    compile 'org.apache.sshd:sshd-core:1.7.0'
+    
 }
 
 mainClassName = 'uk.gov.ons.fsdr.adeccomock.AdeccoMock'
 group = 'uk.gov.ons'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 sourceCompatibility = 11
 targetCompatibility = 11
 
