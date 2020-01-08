@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.slf4j.Slf4j;
 import uk.gov.ons.fsdr.common.dto.devicelist.AllocatedEndUserLookup;
 import uk.gov.ons.fsdr.common.dto.devicelist.DataRow;
 import uk.gov.ons.fsdr.common.dto.devicelist.DataRowValues;
@@ -18,6 +20,7 @@ import uk.gov.ons.fsdr.common.dto.devicelist.Status;
 
 @RestController
 @RequestMapping("/xma")
+@Slf4j
 public class MockXMA {
   private final Map<String, List<String>> xmaMessages = Collections.synchronizedMap(new LinkedHashMap());
   private final Map<String, String> employeeIds = new ConcurrentHashMap<>();
@@ -74,6 +77,7 @@ public class MockXMA {
 
   @GetMapping("/messages/{email}")
   public ResponseEntity<List<String>> getUsersMessages(@PathVariable("email") String email) {
+    log.info("/xma/messages/"+email);
     List<String> messages = xmaMessages.get(email);
     return new ResponseEntity<List<String>>(messages, HttpStatus.OK);
   }
@@ -118,6 +122,7 @@ public class MockXMA {
   }
 
   private void addMessage(String email, String body) {
+    log.info("xma post id:" + email);
     List<String> messages = xmaMessages.get(email);
     if (messages == null) messages = new ArrayList<>();
     messages.add(body);

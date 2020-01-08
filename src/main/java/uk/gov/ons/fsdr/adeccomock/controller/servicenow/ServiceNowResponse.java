@@ -3,6 +3,7 @@ package uk.gov.ons.fsdr.adeccomock.controller.servicenow;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import lombok.Data;
 
 @Data
@@ -11,4 +12,8 @@ import lombok.Data;
 public class ServiceNowResponse {
   @JsonProperty(value = "sys_id")
   private String sysId;
+
 }
+
+
+
