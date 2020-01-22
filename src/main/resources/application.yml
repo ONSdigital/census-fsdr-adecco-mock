@@ -24,19 +24,19 @@ springfox.documentation.swagger.v2.path: "/api-docs"
 management.endpoints.web.base-path: ''
 
 logging:
-level:
-  root: WARN
-  uk.gov.ons.fwmt: INFO
-  org.springframework.security: INFO
-  org.springframework.web: INFO
-  org.springframework.amqp: INFO
-  org.hibernate: INFO
-  org.apache.commons.dbcp2: INFO
-  org.springframework: INFO
-file: target/SpringErrors/spring.log
-pattern:
-  console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] [%X{CID}] %logger{1}::%M - %msg%n"
-  file: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] [%X{CID}] %logger{1}::%M - %msg%n"
+  level:
+    root: WARN
+    uk.gov.ons.fsdr: DEBUG
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    org.springframework.amqp: INFO
+    org.hibernate: INFO
+    org.apache.commons.dbcp2: INFO
+    org.springframework: INFO
+  file: target/SpringErrors/spring.log
+  pattern:
+    console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] [%X{CID}] %logger{1}::%M - %msg%n"
+    file: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] [%X{CID}] %logger{1}::%M - %msg%n"
 
 customisation:
   logging:
@@ -46,4 +46,3 @@ customisation:
 adecco:
   query: "SELECT+TR1__closing_report__c.TR1__Start_Date__c,TR1__closing_report__c.TR1__Contract_End_Date__c,TR1__closing_report__c.TR1__End_Date__c,TR1__Job__r.Job_Title__c,TR1__Job__r.Hiring_Manager_First_Name__c,TR1__Job__r.Hiring_Manager_Last_Name__c,TR1__Person_Placed__r.Id,TR1__Person_Placed__r.FirstName,TR1__Person_Placed__r.LastName,TR1__Person_Placed__r.tr1__other_name__c,TR1__Person_Placed__r.Address_Line_1__c,TR1__Person_Placed__r.Address_Line_2__c,TR1__Person_Placed__r.Town__c,TR1__Person_Placed__r.County__c,TR1__Person_Placed__r.Postcode__c,TR1__Person_Placed__r.Email,TR1__Person_Placed__r.HomePhone,TR1__Person_Placed__r.MobilePhone,TR1__Person_Placed__r.Emergency_Contact__c,TR1__Person_Placed__r.Emergency_Contact_Number__c,TR1__Person_Placed__r.birthdate,TR1__Person_Placed__r.UK_EU_Driving_Licence__c,TR1__Person_Placed__r.diversity_age__c,TR1__Person_Placed__r.Ethnicity__c,TR1__Person_Placed__r.Ethnicity_Notes__c,TR1__Person_Placed__r.Disability_or_Health_Condition__c,TR1__Person_Placed__r.Disability_or_Health_Condition_notes__c,TR1__Person_Placed__r.Nationality__c,TR1__Person_Placed__r.diversity_gender__c,TR1__Person_Placed__r.Sexual_Orientation__c,TR1__Person_Placed__r.Sexual_Orientation_Notes__c,TR1__Person_Placed__r.Religion_or_belief__c,TR1__Person_Placed__r.Religion_or_belief_notes__c,TR1__Person_Placed__r.TR1__Candidate_Status__c,TR1__closing_report__c.Contracted_Hours__c,TR1__Job__r.Role_Code__c,TR1__Person_Placed__r.ONS_Travel_Distance__c,TR1__Person_Placed__r.Local_Authority_Area_Id__r.Local_Authority__r.Country_Region__c+FROM+TR1__closing_report__c+WHERE+TR1__Person_Placed__r.TR1__Candidate_Status__c+LIKE+'Assigned'+AND+"
   idBadgeQuery: "SELECT+Worker__r.Id,ID_Badge_Number__c.Name+FROM+ID_Badge_Number__c+WHERE+ID_Badge_Number__c.Status__c+LIKE+'Active'+AND+"
-  
