@@ -14,7 +14,8 @@ public class LatencyConfig {
 
   @Bean
   public LatencyBean makeLatencyBean() {
-    LatencyBean lb = new LatencyBean(latency);
+    LatencyBean lb = new LatencyBean();
+    lb.setDefaultLatency(latency);
     return lb;
   }
 
