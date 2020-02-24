@@ -26,6 +26,7 @@ public class AdeccoMockService {
 
   private static int remainingRecords;
   private static int deviceCount;
+  private static int employeeCount;
 
   public AdeccoResponseList getInitialAdeccoResponses(String sql) {
     AdeccoResponseList adeccoResponseList = new AdeccoResponseList();
@@ -34,11 +35,8 @@ public class AdeccoMockService {
     adeccoResponseList.setRecords(allResponses);
     adeccoResponseList.setTotalSize(String.valueOf(allResponses.size()));
     adeccoResponseList.setNextRecordsUrl("nextRecord");
-    if(remainingRecords != 0) {
-      adeccoResponseList.setDone(false);
-    } else {
-      adeccoResponseList.setDone(true);
-    }
+    adeccoResponseList.setDone(getDone(remainingRecords));
+
     return adeccoResponseList;
   }
 
@@ -53,12 +51,7 @@ public class AdeccoMockService {
       adeccoResponseList.setDone(true);
       log.info("Getting next set of id badges");
     } else {
-
-      if (remainingRecords != 0) {
-        adeccoResponseList.setDone(false);
-      } else {
-        adeccoResponseList.setDone(true);
-      }
+      adeccoResponseList.setDone(getDone(remainingRecords));
       List<AdeccoResponse> allResponses = responseManager.getAllResponses();
       adeccoResponseList.setRecords(allResponses);
       adeccoResponseList.setTotalSize(String.valueOf(allResponses.size()));
@@ -66,6 +59,10 @@ public class AdeccoMockService {
       log.info("Getting next set of employees");
     }
     return adeccoResponseList;
+  }
+
+  private boolean getDone(int remainingRecords) {
+    return remainingRecords == 0;
   }
 
   public List<AdeccoResponse> getEmployeeById(String employeeId) {
@@ -90,6 +87,7 @@ public class AdeccoMockService {
     responseManager.resetIdBadges();
     remainingRecords = 0;
     deviceCount = 0;
+    employeeCount = 0;
     log.info("cleared Adecco Responses.");
   }
 
@@ -115,7 +113,6 @@ public class AdeccoMockService {
   private void createAdeccoResponses() {
     responseManager.reset();
 
-    int count = 0;
     int numberOfEmployees;
     if(remainingRecords > 250) {
       numberOfEmployees = 250;
@@ -124,7 +121,7 @@ public class AdeccoMockService {
     }
     for (int i = 0; i < numberOfEmployees; i++) {
       Device device = devices.get(deviceCount);
-      Employee employee = employees.get(count);
+      Employee employee = employees.get(employeeCount);
       employee.setUniqueEmployeeId(String.valueOf(UUID.randomUUID()));
       employee.setRoleId(device.getRoleId());
       employee.setJobRole(setJobRole(device));
@@ -132,11 +129,11 @@ public class AdeccoMockService {
       responseManager.addResponse(adeccoResponse);
       AdeccoResponse idBadgeResponse = AdeccoEmployeeFactory.buildIdBadgeResponse(employee);
       responseManager.addIdBadgeResponse(idBadgeResponse);
-      count++;
+      employeeCount++;
       deviceCount++;
       remainingRecords--;
-      if (count == employees.size()) {
-        count = 0;
+      if (employeeCount == employees.size()) {
+        employeeCount = 0;
       }
     }
     log.info("Employees setup: {}", numberOfEmployees);
