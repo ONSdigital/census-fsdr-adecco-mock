@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import uk.gov.ons.fsdr.adeccomock.dto.Device;
 import uk.gov.ons.fsdr.adeccomock.dto.Employee;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 @Component
@@ -32,16 +32,16 @@ public class EmployeeInitializer implements CommandLineRunner {
   }
 
   private List<Device> getDevicesFromCsv() throws IOException {
-    File file = deviiceFile.getFile();
-    return (List<Device>) new CsvToBeanBuilder(new FileReader(file))
+    InputStream file = deviiceFile.getInputStream();
+    return new CsvToBeanBuilder<Device>(new InputStreamReader(file))
         .withType(Device.class)
         .build()
         .parse();
   }
 
   private List<Employee> getEmployeesFromCsv() throws IOException {
-    File file = employeeFile.getFile();
-    return (List<Employee>) new CsvToBeanBuilder(new FileReader(file))
+    InputStream file = employeeFile.getInputStream();
+    return new CsvToBeanBuilder<Employee>(new InputStreamReader(file))
         .withType(Employee.class)
         .build()
         .parse();
