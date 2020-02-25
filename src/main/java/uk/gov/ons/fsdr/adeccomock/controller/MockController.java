@@ -1,5 +1,6 @@
 package uk.gov.ons.fsdr.adeccomock.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,11 @@ public class MockController {
   public ResponseEntity<?> putAddecoResponse(@RequestBody List<AdeccoResponse> adeccoResponses) {
     adeccoService.putRecords(adeccoResponses);
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @PostMapping(value = "/postManyResponse/{amount}")
+  public void postManyAddecoResponse(@PathVariable Integer amount) throws IOException {
+    adeccoService.createManyRecords(amount);
   }
 
   @PutMapping(value = "latency/default/{ms}")

@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class ResponseManager {
   private Map<String, List<AdeccoResponse>> responseDirectory = new ConcurrentHashMap<>();
+  private Map<String, List<AdeccoResponse>> idBadgeDirectory = new ConcurrentHashMap<>();
 
   @Value("${customisation.logging.logFlagType.logAllMessages}")
   private boolean logAllMessages;
@@ -51,4 +52,32 @@ public class ResponseManager {
   public void reset() {
     responseDirectory.clear();
   }
+
+  public void resetIdBadges() {
+    idBadgeDirectory.clear();
+  }
+
+  public List<AdeccoResponse> getAllIdBadgeResponses() {
+    List<AdeccoResponse>  responses = new ArrayList<AdeccoResponse>();
+    Collection<List<AdeccoResponse>> values = idBadgeDirectory.values();
+    for (List<AdeccoResponse> list : values) {
+      responses.addAll(list);
+    }
+    return responses;
+  }
+
+  public void addIdBadgeResponse(AdeccoResponse adeccoResponse) {
+    String employeeId = adeccoResponse.getAdeccoResponseWorker().getEmployeeId();
+    List<AdeccoResponse>  responses = new ArrayList<AdeccoResponse>();
+    if (idBadgeDirectory.containsKey(employeeId)) {
+      responses.addAll(idBadgeDirectory.get(employeeId));
+    }
+    responses.add(adeccoResponse);
+    idBadgeDirectory.put(String.valueOf(employeeId), responses);
+  }
+
+  public List<AdeccoResponse> getIdBadgeResponse(String employeeId) {
+    return idBadgeDirectory.get(employeeId);
+  }
+
 }

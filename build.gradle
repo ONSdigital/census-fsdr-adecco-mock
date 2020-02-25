@@ -39,7 +39,9 @@ dependencies {
     
     compile 'org.apache.mina:mina-core:1.1.7'
     compile 'org.apache.sshd:sshd-core:1.7.0'
-    
+    compile("com.opencsv:opencsv:5.0")
+
+
 }
 
 mainClassName = 'uk.gov.ons.fsdr.adeccomock.AdeccoMock'
