@@ -1,0 +1,338 @@
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+                  xmlns:tns="http://loneworker.local/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://loneworker.local/">
+    <wsdl:types>
+        <s:schema elementFormDefault="qualified" targetNamespace="http://loneworker.local/">
+            <s:element name="HelloWorld">
+                <s:complexType/>
+            </s:element>
+            <s:element name="HelloWorldResponse">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="InsertUpdatePerson">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="externalSystemPersonCode" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="takeOnCode" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="personName" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="phoneNumber" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="emailAddress" type="s:string"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="isActivated" type="s:int"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="pinNumber" type="s:int"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="mobilePhoneManufacturer" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="mobilePhoneModel" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="mobilePhoneNetwork" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="personGender" type="s:string"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="dateOfBirth" type="s:dateTime"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hairColour" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="ethnicity" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="jobLocationAndRiskFactors" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="physicalDescription" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="medicalConditions" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="operatorInstructions1" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="operatorInstructions2" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="operatorInstructions3" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="InsertUpdatePersonResponse">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="InsertUpdatePersonResult" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="InsertUpdatePerson2">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="externalSystemPersonCode" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="takeOnCode" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="personName" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="phoneNumber" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="emailAddress" type="s:string"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="isActivated" type="s:int"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="pinNumber" type="s:int"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="mobilePhoneManufacturer" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="mobilePhoneModel" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="mobilePhoneNetwork" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="personGender" type="s:string"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="dateOfBirth" type="s:dateTime"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hairColour" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="ethnicity" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="jobLocationAndRiskFactors" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="physicalDescription" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="medicalConditions" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="operatorInstructions1" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="operatorInstructions2" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="operatorInstructions3" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="personalMobileNumber" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="personalNotes" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyMembership" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="staffIdNumber" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="languageCode" type="s:string"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="templatePersonId" type="s:int"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="newPersonId" type="s:int"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="smsSenderCode" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="InsertUpdatePerson2Response">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="InsertUpdatePerson2Result" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="InsertUpdatePerson4">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="externalSystemPersonCode" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="takeOnCode" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="takeOnPassword" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="updateMode" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="personName" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="phoneNumber" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="emailAddress" type="s:string"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="isActivated" type="s:int"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="pinNumber" type="s:int"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="mobilePhoneManufacturer" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="mobilePhoneModel" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="mobilePhoneNetwork" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="personGender" type="s:string"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="dateOfBirth" type="s:dateTime"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hairColour" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="ethnicity" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="jobLocationAndRiskFactors" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="physicalDescription" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="medicalConditions" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="operatorInstructions1" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="operatorInstructions2" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="operatorInstructions3" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="personalMobileNumber" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="personalNotes" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyMembership" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="staffIdNumber" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="languageCode" type="s:string"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="templatePersonId" type="s:int"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="newPersonId" type="s:int"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="smsSenderCode" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="loginUsername" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="loginPassword" type="s:string"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="loginEnabled" type="s:int"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="loginPermissionTemplate" type="s:string"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="receiveAlertClosureReports" type="s:int"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyItem1" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyItem2" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyItem3" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyItem4" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyItem5" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyItem6" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyItem7" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyItem8" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyItem9" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyItem10" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyRestriction1" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyRestriction2" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyRestriction3" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyRestriction4" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyRestriction5" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyRestriction6" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyRestriction7" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyRestriction8" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyRestriction9" type="s:string"/>
+                        <s:element minOccurs="0" maxOccurs="1" name="hierarchyRestriction10" type="s:string"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="gpsDeviceId" type="s:int"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="InsertUpdatePerson4Response">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="InsertUpdatePerson4Result" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="GetHierarchyDetails">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="takeOnCode" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="GetHierarchyDetailsResponse">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="GetHierarchyDetailsResult">
+                            <s:complexType>
+                                <s:sequence>
+                                    <s:any/>
+                                </s:sequence>
+                            </s:complexType>
+                        </s:element>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+        </s:schema>
+    </wsdl:types>
+    <wsdl:message name="HelloWorldSoapIn">
+        <wsdl:part name="parameters" element="tns:HelloWorld"/>
+    </wsdl:message>
+    <wsdl:message name="HelloWorldSoapOut">
+        <wsdl:part name="parameters" element="tns:HelloWorldResponse"/>
+    </wsdl:message>
+    <wsdl:message name="InsertUpdatePersonSoapIn">
+        <wsdl:part name="parameters" element="tns:InsertUpdatePerson"/>
+    </wsdl:message>
+    <wsdl:message name="InsertUpdatePersonSoapOut">
+        <wsdl:part name="parameters" element="tns:InsertUpdatePersonResponse"/>
+    </wsdl:message>
+    <wsdl:message name="InsertUpdatePerson2SoapIn">
+        <wsdl:part name="parameters" element="tns:InsertUpdatePerson2"/>
+    </wsdl:message>
+    <wsdl:message name="InsertUpdatePerson2SoapOut">
+        <wsdl:part name="parameters" element="tns:InsertUpdatePerson2Response"/>
+    </wsdl:message>
+    <wsdl:message name="InsertUpdatePerson4SoapIn">
+        <wsdl:part name="parameters" element="tns:InsertUpdatePerson4"/>
+    </wsdl:message>
+    <wsdl:message name="InsertUpdatePerson4SoapOut">
+        <wsdl:part name="parameters" element="tns:InsertUpdatePerson4Response"/>
+    </wsdl:message>
+    <wsdl:message name="GetHierarchyDetailsSoapIn">
+        <wsdl:part name="parameters" element="tns:GetHierarchyDetails"/>
+    </wsdl:message>
+    <wsdl:message name="GetHierarchyDetailsSoapOut">
+        <wsdl:part name="parameters" element="tns:GetHierarchyDetailsResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="transitSoap">
+        <wsdl:operation name="HelloWorld">
+            <wsdl:input message="tns:HelloWorldSoapIn"/>
+            <wsdl:output message="tns:HelloWorldSoapOut"/>
+        </wsdl:operation>
+        <wsdl:operation name="InsertUpdatePerson">
+            <wsdl:input message="tns:InsertUpdatePersonSoapIn"/>
+            <wsdl:output message="tns:InsertUpdatePersonSoapOut"/>
+        </wsdl:operation>
+        <wsdl:operation name="InsertUpdatePerson2">
+            <wsdl:input message="tns:InsertUpdatePerson2SoapIn"/>
+            <wsdl:output message="tns:InsertUpdatePerson2SoapOut"/>
+        </wsdl:operation>
+        <wsdl:operation name="InsertUpdatePerson4">
+            <wsdl:input message="tns:InsertUpdatePerson4SoapIn"/>
+            <wsdl:output message="tns:InsertUpdatePerson4SoapOut"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetHierarchyDetails">
+            <wsdl:input message="tns:GetHierarchyDetailsSoapIn"/>
+            <wsdl:output message="tns:GetHierarchyDetailsSoapOut"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="transitSoap" type="tns:transitSoap">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="HelloWorld">
+            <soap:operation soapAction="http://loneworker.local/HelloWorld" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="InsertUpdatePerson">
+            <soap:operation soapAction="http://loneworker.local/InsertUpdatePerson" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="InsertUpdatePerson2">
+            <soap:operation soapAction="http://loneworker.local/InsertUpdatePerson2" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="InsertUpdatePerson4">
+            <soap:operation soapAction="http://loneworker.local/InsertUpdatePerson4" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetHierarchyDetails">
+            <soap:operation soapAction="http://loneworker.local/GetHierarchyDetails" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="transitSoap12" type="tns:transitSoap">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="HelloWorld">
+            <soap12:operation soapAction="http://loneworker.local/HelloWorld" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="InsertUpdatePerson">
+            <soap12:operation soapAction="http://loneworker.local/InsertUpdatePerson" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="InsertUpdatePerson2">
+            <soap12:operation soapAction="http://loneworker.local/InsertUpdatePerson2" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="InsertUpdatePerson4">
+            <soap12:operation soapAction="http://loneworker.local/InsertUpdatePerson4" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetHierarchyDetails">
+            <soap12:operation soapAction="http://loneworker.local/GetHierarchyDetails" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="transit">
+        <wsdl:port name="transitSoap" binding="tns:transitSoap">
+            <soap:address location="https://transit.uat.loneworkermanager.com/transit.asmx"/>
+        </wsdl:port>
+        <wsdl:port name="transitSoap12" binding="tns:transitSoap12">
+            <soap12:address location="https://transit.uat.loneworkermanager.com/transit.asmx"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
