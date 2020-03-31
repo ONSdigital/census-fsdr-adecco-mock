@@ -2,6 +2,8 @@ package uk.gov.ons.fsdr.adeccomock.controller.servicenow;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/servicenow")
 public class MockServiceNow {
-  private final Map<String, List<String>> snowMessages = new ConcurrentHashMap<>();
+  private final Map<String, List<String>> snowMessages = Collections.synchronizedMap(new LinkedHashMap<>());
 
   @PostMapping(path = "/", consumes = "application/json")
   public ResponseEntity<ServiceNowResponse> postMember(@RequestBody String body) {
