@@ -22,10 +22,64 @@ apply plugin: 'io.spring.dependency-management'
 
 repositories {
     jcenter()
+    mavenCentral()
+}
+
+configurations {
+    jaxb
+}
+
+task genJaxb {
+    ext.sourcesDir = "${buildDir}/generated-sources/jaxb"
+    ext.classesDir = "${buildDir}/classes/jaxb"
+    ext.schema = "${projectDir}/src/main/resources/wsdl"
+
+    outputs.dir classesDir
+
+    doLast() {
+        project.ant {
+            taskdef name: 'xjc', classname: 'com.sun.tools.xjc.XJCTask',
+                    classpath: configurations.jaxb.asPath
+            mkdir(dir: sourcesDir)
+            mkdir(dir: classesDir)
+
+            xjc(destdir: sourcesDir) {
+                arg(value: '-wsdl')
+                produces(dir: sourcesDir, includes: '**/*.java')
+                schema(dir: schema, includes: '**/*.wsdl')
+            }
+
+            javac(destdir: classesDir, source: 1.8, target: 1.8, debug: true,
+                    debugLevel: 'lines,vars,source',
+                    classpath: configurations.jaxb.asPath) {
+                src(path: sourcesDir)
+                include(name: '**/*.java')
+                include(name: '*.java')
+            }
+
+            copy(todir: classesDir) {
+                fileset(dir: sourcesDir, erroronmissingdir: false) {
+                    exclude(name: '**/*.java')
+                }
+            }
+        }
+    }
 }
 
 dependencies {
+    jaxb 'com.sun.xml.bind:jaxb-xjc:2.1.7'
+
+    compile 'javax.xml.soap:javax.xml.soap-api:1.4.0'
+    compile 'javax.xml.bind:jaxb-api:2.3.0'
+    compile 'com.sun.xml.bind:jaxb-core:2.3.0'
+    compile 'com.sun.xml.bind:jaxb-impl:2.3.0'
+    compile 'com.sun.xml.messaging.saaj:saaj-impl:1.5.0'
+    compile 'javax.xml.ws:jaxws-api:2.2.6'
+
+    compile(files(genJaxb.classesDir).builtBy(genJaxb))
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
     testImplementation 'junit:junit:4.12'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -40,7 +94,6 @@ dependencies {
     compile 'org.apache.mina:mina-core:1.1.7'
     compile 'org.apache.sshd:sshd-core:1.7.0'
     compile("com.opencsv:opencsv:5.0")
-
 
 }
 
