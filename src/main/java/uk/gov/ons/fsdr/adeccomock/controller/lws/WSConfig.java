@@ -16,23 +16,15 @@ import org.springframework.ws.wsdl.wsdl11.Wsdl11Definition;
 @Configuration
 public class WSConfig extends WsConfigurerAdapter{
 
-//    @Autowired
-//    RawXmlInterceptor rawXmlInterceptor;
-
     @Bean
     public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
       MessageDispatcherServlet servlet = new MessageDispatcherServlet();
       servlet.setApplicationContext(applicationContext);
       servlet.setTransformWsdlLocations(true);
-      return new ServletRegistrationBean(servlet, "/loneworker.local/InsertUpdatePerson4");
+      return new ServletRegistrationBean(servlet, "/lws/*");
     }
 
-//    @Override
-//    public void addInterceptors(List<EndpointInterceptor> interceptors) {
-//      interceptors.add(rawXmlInterceptor);
-//    }
-
-    @Bean(name = "GenericOutgoingWsSoap")
+    @Bean(name = "InsertUpdatePerson4")
     public Wsdl11Definition defaultGenericOutgoingWsWsdl11Definition() {
       SimpleWsdl11Definition wsdl11Definition = new SimpleWsdl11Definition();
       wsdl11Definition.setWsdl(new ClassPathResource("/wsdl/loneworkermanager.wsdl"));

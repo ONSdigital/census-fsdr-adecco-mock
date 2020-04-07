@@ -1,6 +1,7 @@
 package uk.gov.ons.fsdr.adeccomock.controller.lws;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import local.loneworker.InsertUpdatePerson4;
 import org.apache.http.HttpResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,49 +24,41 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequestMapping("/lwsUtil")
 public class MockLwsMessages {
-  private final Map<String, List<String>> gsuiteMessages = Collections.synchronizedMap(new LinkedHashMap());
+  private final Map<String, List<InsertUpdatePerson4>> lwsMessages = Collections.synchronizedMap(new LinkedHashMap());
   private final ObjectMapper objectMapper = new ObjectMapper();
-  private final Map<String, String> emailAddresses = new ConcurrentHashMap<>();
-
-//  @PostMapping(path = "/InsertUpdatePerson4", consumes = "application/xml")
-//  public ResponseEntity<HttpResponse> postMember(@RequestBody String body) {
-//    try {
-//      System.out.println("BOOP" +body);
-//      addMessage("sysId", body);
-//      return new ResponseEntity<>(HttpStatus.CREATED);
-//    } catch (Exception e) {
-//      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//  }
 
   @GetMapping("/messages/")
-  public ResponseEntity<List<String>> getAllMessages() {
-    List<String> all = new ArrayList<>();
-    Collection<List<String>> messages = gsuiteMessages.values();
-    for (List<String> list : messages) {
+  public ResponseEntity<List<InsertUpdatePerson4>> getAllMessages() {
+    List<InsertUpdatePerson4> all = new ArrayList<>();
+    Collection<List<InsertUpdatePerson4>> messages = lwsMessages.values();
+    for (List<InsertUpdatePerson4> list : messages) {
       all.addAll(list);
     }
-    return new ResponseEntity<List<String>>(all, HttpStatus.OK);
+    System.out.println(all.size());
+    return new ResponseEntity<List<InsertUpdatePerson4>>(all, HttpStatus.OK);
   }
 
   @GetMapping("/messages/{employeeId}")
-  public ResponseEntity<List<String>> getUsersMessages(@PathVariable("employeeId") String employeeId) {
-    List<String> messages = gsuiteMessages.get(emailAddresses.get(employeeId));
-    return new ResponseEntity<List<String>>(messages, HttpStatus.OK);
+  public ResponseEntity<List<InsertUpdatePerson4>> getUsersMessages(@PathVariable("employeeId") String employeeId) {
+    List<InsertUpdatePerson4> messages = lwsMessages.get(employeeId);
+    return new ResponseEntity<List<InsertUpdatePerson4>>(messages, HttpStatus.OK);
   }
 
   @DeleteMapping("/messages/reset")
   public ResponseEntity<?> delete() {
-    gsuiteMessages.clear();
+    lwsMessages.clear();
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
+  public void acceptRequest(InsertUpdatePerson4 insertUpdatePerson4) {
+    addMessage(insertUpdatePerson4.getExternalSystemPersonCode(),insertUpdatePerson4);
+  }
 
-  private void addMessage(String email, String extractedMessage) {
-    List<String> messages = gsuiteMessages.get(email);
+  private void addMessage(String email, InsertUpdatePerson4 extractedMessage) {
+    List<InsertUpdatePerson4> messages = lwsMessages.get(email);
     if (messages == null) messages = new ArrayList<>();
     messages.add(extractedMessage);
-    gsuiteMessages.put(email, messages);
+    lwsMessages.put(email, messages);
   }
 
 }
