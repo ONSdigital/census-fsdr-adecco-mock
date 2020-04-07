@@ -29,10 +29,8 @@ public class AddLatencyFilter implements javax.servlet.Filter {
       String pathInfo = ((HttpServletRequest)request).getRequestURI();
       String[] split = pathInfo.split("/");
       if (split.length>1) {
-        log.info(split[1]);
         Integer latency = latencyBean.getLatency(split[1]);
-        log.debug("Latency: {}ms", latency);
-        Thread.sleep(latencyBean.getDefaultLatency());
+        Thread.sleep(latency);
       }
     } catch (InterruptedException e) {
       log.error("Could not add latency", e);

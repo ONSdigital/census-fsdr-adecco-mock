@@ -22,7 +22,7 @@ import uk.gov.ons.fsdr.common.dto.devicelist.Status;
 @RequestMapping("/xma")
 @Slf4j
 public class MockXMA {
-  private final Map<String, List<String>> xmaMessages = Collections.synchronizedMap(new LinkedHashMap());
+  private final Map<String, List<String>> xmaMessages = Collections.synchronizedMap(new LinkedHashMap<>());
   private final Map<String, String> employeeIds = new ConcurrentHashMap<>();
   private final List<DataRow> devices = new ArrayList<>();
   private final ObjectMapper objectMapper = new ObjectMapper();

@@ -27,8 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @RequestMapping("/gsuite")
 public class MockGSuite {
-  private final Map<String, List<String>> gsuiteMessages = Collections.synchronizedMap(new LinkedHashMap());
-  private final Map<String, List<String>> groups = Collections.synchronizedMap(new LinkedHashMap());
+  private final Map<String, List<String>> gsuiteMessages = Collections.synchronizedMap(new LinkedHashMap<>());
+  private final Map<String, List<String>> groups = Collections.synchronizedMap(new LinkedHashMap<>());
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final Map<String, String> emailAddresses = new ConcurrentHashMap<>();
 
