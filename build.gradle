@@ -77,8 +77,10 @@ dependencies {
     compile 'javax.xml.ws:jaxws-api:2.2.6'
 
     compile(files(genJaxb.classesDir).builtBy(genJaxb))
+    compile("uk.gov.ons.census.fwmt:census-fwmt-events:1.0.20-RELEASE")
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     testImplementation 'junit:junit:4.12'
     compileOnly 'org.projectlombok:lombok'

@@ -24,6 +24,8 @@ public class AdeccoMockService {
   @Autowired
   private ResponseManager responseManager;
 
+  public static int totalCount;
+
   private static int remainingRecords;
   private static int deviceCount;
   private static int employeeCount;
@@ -79,6 +81,7 @@ public class AdeccoMockService {
 
   public void createManyRecords(int count) throws IOException {
     remainingRecords = count;
+    totalCount = count;
     createAdeccoResponses();
   }
 
@@ -87,6 +90,7 @@ public class AdeccoMockService {
     responseManager.resetIdBadges();
     remainingRecords = 0;
     deviceCount = 0;
+    totalCount = 0;
     employeeCount = 0;
     log.info("cleared Adecco Responses.");
   }
