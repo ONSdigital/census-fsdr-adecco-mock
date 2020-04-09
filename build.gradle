@@ -79,7 +79,6 @@ dependencies {
     compile(files(genJaxb.classesDir).builtBy(genJaxb))
     compile("uk.gov.ons.census.fwmt:census-fwmt-events:1.0.20-RELEASE")
 
-
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
@@ -97,9 +96,6 @@ dependencies {
     compile 'org.apache.mina:mina-core:1.1.7'
     compile 'org.apache.sshd:sshd-core:1.7.0'
     compile("com.opencsv:opencsv:5.0")
-
-    testImplementation 'org.springframework.amqp:spring-rabbit-test'
-
 
 }
 
