@@ -27,7 +27,7 @@ public class ResponseManager {
   }
 
   public List<AdeccoResponse> getAllResponses() {
-    List<AdeccoResponse>  responses = new ArrayList<AdeccoResponse>();
+    List<AdeccoResponse>  responses = new ArrayList<>();
     Collection<List<AdeccoResponse>> values = responseDirectory.values();
     for (List<AdeccoResponse> list : values) {
       responses.addAll(list);

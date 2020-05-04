@@ -11,6 +11,7 @@ import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseList;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +35,7 @@ public class AdeccoMockService {
     AdeccoResponseList adeccoResponseList = new AdeccoResponseList();
 
     List<AdeccoResponse> allResponses = getResponses(sql);
+    allResponses.sort(Comparator.comparing((AdeccoResponse aR) -> aR.getAdeccoResponseWorker().getEmployeeId()));
     adeccoResponseList.setRecords(allResponses);
     adeccoResponseList.setTotalSize(String.valueOf(allResponses.size()));
     adeccoResponseList.setNextRecordsUrl("nextRecord");
