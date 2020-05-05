@@ -60,7 +60,7 @@ public class EventListener {
         log.info("xmacounter: {} snowcounter: {} total: {} ", xma, snow, totalCount);
 
       }
-      if (xma == totalCount && snow == totalCount) {
+      if (xma >= totalCount && snow >= totalCount) {
         gatewayEventManager.triggerEvent("<N/A>", FSDR_COMPLETE);
         xma = 0;
         snow = 0;
