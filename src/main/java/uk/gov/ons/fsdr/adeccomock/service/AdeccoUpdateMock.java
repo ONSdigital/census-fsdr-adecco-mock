@@ -40,4 +40,8 @@ public class AdeccoUpdateMock {
     adeccoUpdateMessages.put(id, messages);
   }
 
+  public void clear() {
+   adeccoUpdateMessages.clear();
+  }
+
 }

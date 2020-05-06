@@ -54,4 +54,10 @@ public class AdeccoController {
     return new ResponseEntity<>(messages, HttpStatus.OK);
   }
 
+  @DeleteMapping("/messages/reset")
+  public ResponseEntity<?> delete() {
+    adeccoUpdateMock.clear();
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
  }
