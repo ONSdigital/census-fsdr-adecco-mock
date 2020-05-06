@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.ons.fsdr.adeccomock.service.AdeccoMockService;
+import uk.gov.ons.fsdr.adeccomock.service.AdeccoUpdateMock;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseList;
 
@@ -20,11 +21,11 @@ public class AdeccoController {
   @Autowired
   private AdeccoMockService adeccoService;
 
-  @GetMapping("/{sqlStatement}")
-  // Below line causes a build error. Not sure if we need the @RequestParam
-//  public ResponseEntity<?> getAllEmployeesFromAdecco(@RequestParam String sql) {
-  public ResponseEntity<?> getFirstRecordSet(@PathVariable String sqlStatement) throws IOException {
+  @Autowired
+  private AdeccoUpdateMock adeccoUpdateMock;
 
+  @GetMapping("/{sqlStatement}")
+  public ResponseEntity<?> getFirstRecordSet(@PathVariable String sqlStatement) {
     AdeccoResponseList responses =  adeccoService.getInitialAdeccoResponses(sqlStatement);
     return new ResponseEntity<>(responses, HttpStatus.OK);
   }
@@ -33,6 +34,24 @@ public class AdeccoController {
   public ResponseEntity<?> getNextRecordSet() throws IOException {
     AdeccoResponseList responses =  adeccoService.getRemainingAdeccoResponses();
     return new ResponseEntity<>(responses, HttpStatus.OK);
+  }
+
+  @PatchMapping("/services/data/v40.0/sobjects/Contact/{uniqueEmployeeId}")
+  public ResponseEntity<?> updateEmployee(@PathVariable String uniqueEmployeeId,  @RequestBody String body) throws IOException {
+    adeccoUpdateMock.addUpdateMessage(uniqueEmployeeId, body);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @GetMapping("/getMockUpdateMessages")
+  public ResponseEntity<?> getUpdates() {
+    List<String> messages = adeccoUpdateMock.getMessages();
+    return new ResponseEntity<>(messages, HttpStatus.OK);
+  }
+
+  @GetMapping("/getMockUpdateMessages/{id}")
+  public ResponseEntity<?> getUpdatesById(@PathVariable String id) {
+    List<String> messages = adeccoUpdateMock.getMessagesById(id);
+    return new ResponseEntity<>(messages, HttpStatus.OK);
   }
 
  }
