@@ -27,7 +27,6 @@ spring:
     active: local
   cloud.gcp.pubsub:
     project-id: local
-    credentials.location: path
 
 springfox.documentation.swagger.v2.path: "/api-docs"
 
