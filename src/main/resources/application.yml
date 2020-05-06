@@ -23,6 +23,10 @@ spring:
     username: guest
     password: guest
     virtual-host: /
+  profiles:
+    active: local
+  cloud.gcp.pubsub:
+    project-id: local
 
 springfox.documentation.swagger.v2.path: "/api-docs"
 

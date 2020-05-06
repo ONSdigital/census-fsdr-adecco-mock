@@ -12,11 +12,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
-import uk.gov.ons.fsdr.common.dto.devicelist.AllocatedEndUserLookup;
-import uk.gov.ons.fsdr.common.dto.devicelist.DataRow;
-import uk.gov.ons.fsdr.common.dto.devicelist.DataRowValues;
-import uk.gov.ons.fsdr.common.dto.devicelist.DeviceListQuery;
-import uk.gov.ons.fsdr.common.dto.devicelist.Status;
 
 @RestController
 @RequestMapping("/xma")
@@ -24,7 +19,6 @@ import uk.gov.ons.fsdr.common.dto.devicelist.Status;
 public class MockXMA {
   private final Map<String, List<String>> xmaMessages = Collections.synchronizedMap(new LinkedHashMap<>());
   private final Map<String, String> employeeIds = new ConcurrentHashMap<>();
-  private final List<DataRow> devices = new ArrayList<>();
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   @RequestMapping(consumes = "application/json")
@@ -82,29 +76,6 @@ public class MockXMA {
     return new ResponseEntity<List<String>>(messages, HttpStatus.OK);
   }
 
-  @PostMapping("/devices/create")
-  public ResponseEntity<?> createDevice(@RequestParam(name="roleId") String roleId, @RequestParam(name="phoneNumber") String phoneNumber, @RequestParam(name="Status") String status) {
-    if(employeeIds.containsKey(roleId)) {
-      devices.add(createDevice(roleId, employeeIds.get(roleId), phoneNumber, status));
-      return new ResponseEntity<>(HttpStatus.OK);
-    } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-  }
-
-  @GetMapping("/devices")
-  public ResponseEntity<DeviceListQuery> getDevices(@RequestParam(name="class_name") String className, @RequestParam(name="v") String version,  @RequestParam(name="attributes") String attributes, @RequestParam(name="page_size") String pageSize) {
-    DeviceListQuery deviceListQuery = new DeviceListQuery();
-    deviceListQuery.setDataRows(devices);
-    return new ResponseEntity<DeviceListQuery>(deviceListQuery, HttpStatus.OK);
-  }
-
-  @GetMapping(value ="/devices", params = "c0")
-  public ResponseEntity<DeviceListQuery> getDevicesLastUpdated(@RequestParam(name="class_name") String className, @RequestParam(name="v") String version,
-      @RequestParam(name="attributes") String attributes, @RequestParam(name="page_size") String pageSize, @RequestParam(name="cns") String cns, @RequestParam(name="c0") String c0) {
-    DeviceListQuery deviceListQuery = new DeviceListQuery();
-    deviceListQuery.setDataRows(devices);
-    return new ResponseEntity<DeviceListQuery>(deviceListQuery, HttpStatus.OK);
-  }
-
   @GetMapping("/id")
   public ResponseEntity<String> getId(@RequestParam(name="roleId") String roleId) {
     if(employeeIds.containsKey(roleId)) {
@@ -117,7 +88,6 @@ public class MockXMA {
   public ResponseEntity<?> delete() {
     xmaMessages.clear();
     employeeIds.clear();
-    devices.clear();
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
@@ -127,24 +97,5 @@ public class MockXMA {
     if (messages == null) messages = new ArrayList<>();
     messages.add(body);
     xmaMessages.put(email, messages);
-  }
-
-  private DataRow createDevice(String roleId, String id, String phoneNumber, String st) {
-    DataRow device =  new DataRow();
-    device.setClassName("Config._MobileDevice");
-    DataRowValues dataRowValues = new DataRowValues();
-    dataRowValues.setImie(UUID.randomUUID().toString());
-    dataRowValues.setDeviceTelephoneNumber(phoneNumber);
-
-    Status status = new Status(st);
-    AllocatedEndUserLookup user = new AllocatedEndUserLookup();
-    user.setGuid(id);
-    user.setRoleID(roleId);
-
-    dataRowValues.setStatus(status);
-    dataRowValues.setAllocatedEndUserLookup(user);
-    device.setDataRowValues(dataRowValues);
-
-    return device;
   }
 }

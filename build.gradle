@@ -23,6 +23,20 @@ apply plugin: 'io.spring.dependency-management'
 repositories {
     jcenter()
     mavenCentral()
+    maven {
+        url 'https://ons.jfrog.io/ons/libs-releases-virtual'
+        credentials {
+            username "${artifactory_user}"
+            password "${artifactory_password}"
+        }
+    }
+    maven {
+        url 'https://ons.jfrog.io/ons/libs-snapshots-virtual'
+        credentials {
+            username "${artifactory_user}"
+            password "${artifactory_password}"
+        }
+    }
 }
 
 configurations {
@@ -82,10 +96,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation 'org.springframework.cloud:spring-cloud-gcp-starter-pubsub'
+
     testImplementation 'junit:junit:4.12'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    compile("uk.gov.ons:census-fsdr-common:0.0.3-RELEASE")
+    compile("uk.gov.ons:census-fsdr-common:0.0.7-RELEASE")
     compile('io.springfox:springfox-swagger2:2.9.2')
     compile('io.springfox:springfox-swagger-ui:2.9.2')
     compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'
@@ -97,6 +113,12 @@ dependencies {
     compile 'org.apache.sshd:sshd-core:1.7.0'
     compile("com.opencsv:opencsv:5.0")
 
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Greenwich.SR1"
+    }
 }
 
 mainClassName = 'uk.gov.ons.fsdr.adeccomock.AdeccoMock'
