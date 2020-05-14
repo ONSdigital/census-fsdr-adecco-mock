@@ -15,7 +15,6 @@ public class AdeccoEmployeeFactory {
   public static AdeccoResponse buildAdeccoResponse(Employee employee) {
     AdeccoResponseJob job = AdeccoResponseJob.builder()
         .jobRole(employee.getJobRole())
-        .roleId(employee.getRoleId())
         .build();
     AdeccoResponseContact contact = AdeccoResponseContact.builder()
         .employeeId(employee.getUniqueEmployeeId())
@@ -49,6 +48,7 @@ public class AdeccoEmployeeFactory {
         .responseJob(job)
         .status("ASSIGNED")
         .crStatus("ACTIVE")
+        .roleId(employee.getRoleId())
         .build();
   }
 
