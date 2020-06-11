@@ -4,6 +4,7 @@ import uk.gov.ons.fsdr.adeccomock.dto.Employee;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseContact;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseJob;
+import uk.gov.ons.fsdr.common.dto.AdeccoResponseJobRoleCode;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseWorker;
 
 import java.time.LocalDate;
@@ -39,6 +40,9 @@ public class AdeccoEmployeeFactory {
         .build();
     AdeccoResponseWorker worker = AdeccoResponseWorker.builder().employeeId(employee.getUniqueEmployeeId()).build();
 
+    AdeccoResponseJobRoleCode adeccoResponseJobRoleCode = new AdeccoResponseJobRoleCode();
+    adeccoResponseJobRoleCode.setRoleId(employee.getRoleId());
+
     return AdeccoResponse.builder()
         .contractStartDate(LocalDate.now().minus(5, ChronoUnit.DAYS).toString())
         .contractEndDate(LocalDate.now().plus(5, ChronoUnit.DAYS).toString())
@@ -48,7 +52,7 @@ public class AdeccoEmployeeFactory {
         .responseJob(job)
         .status("ASSIGNED")
         .crStatus("ACTIVE")
-        .roleId(employee.getRoleId())
+        .adeccoResponseJobRoleCode(adeccoResponseJobRoleCode)
         .build();
   }
 
