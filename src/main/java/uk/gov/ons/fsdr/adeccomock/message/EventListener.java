@@ -27,6 +27,7 @@ public class EventListener {
 
   private static int xma = 0;
   private static int snow = 0;
+  private static int gsuite = 0;
 
   private Object lock = new Object();
 
@@ -55,15 +56,20 @@ public class EventListener {
         }
         isUpdated = true;
         break;
+      case "GSUITE_ACTION_COMPLETE":
+        gsuite++;
+        isUpdated = true;
+        break;
       }
       if (isUpdated) {
-        log.info("xmacounter: {} snowcounter: {} total: {} ", xma, snow, totalCount);
+        log.info("xmacounter: {} snowcounter: {} gsuite: {} total: {} ", xma, snow, gsuite, totalCount);
 
       }
-      if (xma >= totalCount && snow >= totalCount) {
+      if (xma >= totalCount && snow >= totalCount && gsuite >= totalCount) {
         gatewayEventManager.triggerEvent("<N/A>", FSDR_COMPLETE);
         xma = 0;
         snow = 0;
+        gsuite = 0;
       }
     }
   }
