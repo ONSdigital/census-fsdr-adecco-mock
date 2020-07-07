@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.ons.fsdr.adeccomock.service.AdeccoMockService;
 import uk.gov.ons.fsdr.adeccomock.service.AdeccoUpdateMock;
-import uk.gov.ons.fsdr.common.dto.AdeccoResponse;
 import uk.gov.ons.fsdr.common.dto.AdeccoResponseList;
 
 import java.io.IOException;
@@ -24,9 +23,9 @@ public class AdeccoController {
   @Autowired
   private AdeccoUpdateMock adeccoUpdateMock;
 
-  @GetMapping("/{sqlStatement}")
-  public ResponseEntity<?> getFirstRecordSet(@PathVariable String sqlStatement) {
-    AdeccoResponseList responses =  adeccoService.getInitialAdeccoResponses(sqlStatement);
+  @GetMapping("/services/data/v40.0/query/")
+  public ResponseEntity<?> getFirstRecordSet(@RequestParam(required = false) String q) {
+    AdeccoResponseList responses =  adeccoService.getInitialAdeccoResponses(q);
     return new ResponseEntity<>(responses, HttpStatus.OK);
   }
 
