@@ -21,10 +21,7 @@ public class AdeccoEmployeeFactory {
         .employeeId(employee.getUniqueEmployeeId())
         .firstName(employee.getFirstName())
         .lastName(employee.getSurname())
-        .welshLanguageSpeaker(String.valueOf(employee.getWelshLanguageSpeaker()))
-        .languages(employee.getAnyLanguagesSpoken())
         .mobileStaff(String.valueOf(employee.getMobileStaff()))
-        .reasonableAdjustments(employee.getReasonableAdjustments())
         .addressLine1(employee.getAddress1())
         .addressLine2(employee.getAddress2())
         .town(employee.getTown())
@@ -32,11 +29,10 @@ public class AdeccoEmployeeFactory {
         .postcode(employee.getPostcode())
         .personalEmail(employee.getPersonalEmailAddress())
         .telephoneNo1(employee.getTelephoneNumberContact1())
-        .emergencyContact(employee.getEmergencyContactFirstName() + " " + employee.getEmergencyContactSurname())
+        .emergencyContact(employee.getEmergencyContactFullName())
         .emergencyContactNumber1(employee.getEmergencyContactMobileNo())
         .mobility(employee.getMobility())
         .dob(String.valueOf(employee.getDob()))
-        .drivingInfo(employee.getDrivingInformation())
         .build();
     AdeccoResponseWorker worker = AdeccoResponseWorker.builder().employeeId(employee.getUniqueEmployeeId()).build();
 

@@ -49,29 +49,11 @@ public class Employee {
   @CsvBindByName(column = "telephone_number_contact_2")
   private String telephoneNumberContact2;
 
-  @CsvBindByName(column = "emergency_contact_first_name")
-  private String emergencyContactFirstName;
-
-  @CsvBindByName(column = "emergency_contact_surname")
-  private String emergencyContactSurname;
+  @CsvBindByName(column = "emergency_contact_full_name")
+  private String emergencyContactFullName;
 
   @CsvBindByName(column = "emergency_contact_mobile_no")
   private String emergencyContactMobileNo;
-
-  @CsvBindByName(column = "emergency_contact_first_name_2")
-  private String emergencyContactFirstName2;
-
-  @CsvBindByName(column = "emergency_contact_surname_2")
-  private String emergencyContactSurname2;
-
-  @CsvBindByName(column = "emergency_contact_mobile_no_2")
-  private String emergencyContactMobileNo2;
-
-  @CsvBindByName(column = "welsh_language_speaker")
-  private Boolean welshLanguageSpeaker;
-
-  @CsvBindByName(column = "any_languages_spoken")
-  private String anyLanguagesSpoken;
 
   @CsvBindByName(column = "mobility")
   private String mobility;
@@ -82,71 +64,11 @@ public class Employee {
   @CsvBindByName(column = "id_badge_no")
   private String idBadgeNo;
 
-  @CsvBindByName(column = "work_restrictions")
-  private String workRestrictions;
-
   @CsvBindByName(column = "weekly_hours")
   private Double weeklyHours;
 
-  @CsvBindByName(column = "reasonable_adjustments")
-  private String reasonableAdjustments;
-
-  @CsvBindByName(column = "current_civil_servant")
-  private Boolean currentCivilServant;
-
-  @CsvBindByName(column = "previous_civil_servant")
-  private Boolean previousCivilServant;
-
-  @CsvBindByName(column = "civil_service_pension_recipient")
-  private Boolean civilServicePensionRecipient;
-
   @CsvBindByName(column = "dob")
   private String dob;
-
-  @CsvBindByName(column = "driving_information")
-  private String drivingInformation;
-
-  @CsvBindByName(column = "age")
-  private String age;
-
-  @CsvBindByName(column = "ethnicity")
-  private String ethnicity;
-
-  @CsvBindByName(column = "disability")
-  private String disability;
-
-  @CsvBindByName(column = "ethnicity_notes")
-  private String ethnicityNotes;
-
-  @CsvBindByName(column = "disability_notes")
-  private String disabilityNotes;
-
-  @CsvBindByName(column = "nationality")
-  private String nationality;
-
-  @CsvBindByName(column = "gender")
-  private String gender;
-
-  @CsvBindByName(column = "sexual_orientation")
-  private String sexualOrientation;
-
-  @CsvBindByName(column = "religion")
-  private String religion;
-
-  @CsvBindByName(column = "sexual_orientation_notes")
-  private String sexualOrientationNotes;
-
-  @CsvBindByName(column = "religion_notes")
-  private String religionNotes;
-
-  @CsvBindByName(column = "venue_address")
-  private String venueAddress;
-
-  @CsvBindByName(column = "hr_case_data")
-  private String hrCaseData;
-
-  @CsvBindByName(column = "hr_individual_contract")
-  private String hrIndividualContract;
 
   @CsvBindByName(column = "role_id")
   private String roleId;
