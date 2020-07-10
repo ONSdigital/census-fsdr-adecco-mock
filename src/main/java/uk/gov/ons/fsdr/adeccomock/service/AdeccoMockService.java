@@ -38,20 +38,20 @@ public class AdeccoMockService {
     allResponses.sort(Comparator.comparing((AdeccoResponse aR) -> aR.getAdeccoResponseWorker().getEmployeeId()));
     adeccoResponseList.setRecords(allResponses);
     adeccoResponseList.setTotalSize(String.valueOf(allResponses.size()));
-    adeccoResponseList.setNextRecordsUrl("nextRecord");
+    adeccoResponseList.setNextRecordsUrl("/nextRecord");
     adeccoResponseList.setDone(getDone(remainingRecords));
 
     return adeccoResponseList;
   }
 
-  public AdeccoResponseList getRemainingAdeccoResponses() throws IOException {
+  public AdeccoResponseList getRemainingAdeccoResponses() {
     AdeccoResponseList adeccoResponseList = new AdeccoResponseList();
     createAdeccoResponses();
     if (responseManager.getAllResponses().size()==0){
       List<AdeccoResponse> idBadges = responseManager.getAllIdBadgeResponses();
       adeccoResponseList.setRecords(idBadges);
       adeccoResponseList.setTotalSize(String.valueOf(idBadges.size()));
-      adeccoResponseList.setNextRecordsUrl("nextRecord");
+      adeccoResponseList.setNextRecordsUrl("/nextRecord");
       adeccoResponseList.setDone(true);
       log.info("Getting next set of id badges");
     } else {
@@ -59,7 +59,7 @@ public class AdeccoMockService {
       List<AdeccoResponse> allResponses = responseManager.getAllResponses();
       adeccoResponseList.setRecords(allResponses);
       adeccoResponseList.setTotalSize(String.valueOf(allResponses.size()));
-      adeccoResponseList.setNextRecordsUrl("nextRecord");
+      adeccoResponseList.setNextRecordsUrl("/nextRecord");
       log.info("Getting next set of employees");
     }
     return adeccoResponseList;
