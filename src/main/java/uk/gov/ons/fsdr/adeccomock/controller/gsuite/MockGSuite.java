@@ -69,9 +69,9 @@ public class MockGSuite {
       String extractedMessage = extractMessage(body);
       JsonNode rootNode = objectMapper.readTree(extractedMessage);
       String empId = null;
-      if(!rootNode.path("externalIds").isValueNode()) {
+      System.out.println(extractedMessage);
+      if(!extractedMessage.contains("externalIds")) {
         empId = rootNode.path("recoveryEmail").asText().substring(0,8);
-        System.out.println(empId);
       } else empId = rootNode.path("externalIds").get(0).path("value").asText();
       String email = rootNode.path("primaryEmail").asText();
 
