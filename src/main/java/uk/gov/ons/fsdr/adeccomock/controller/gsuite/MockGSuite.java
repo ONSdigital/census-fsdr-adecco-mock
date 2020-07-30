@@ -17,12 +17,14 @@ import java.util.zip.GZIPInputStream;
 import com.google.api.services.admin.directory.model.Group;
 import com.google.api.services.admin.directory.model.Groups;
 import com.google.api.services.admin.directory.model.User;
+import com.google.api.services.admin.directory.model.Users;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import uk.gov.ons.fsdr.common.dto.HqJobRole;
 
 @RestController
 @RequestMapping("/gsuite")
@@ -31,6 +33,8 @@ public class MockGSuite {
   private final Map<String, List<String>> groups = Collections.synchronizedMap(new LinkedHashMap<>());
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final Map<String, String> emailAddresses = new ConcurrentHashMap<>();
+  private final List<User> hqJobRoles = Collections.synchronizedList(new ArrayList());
+  private final Map<String, String> gsuiteIds = Collections.synchronizedMap(new LinkedHashMap<>());
 
   @PostMapping(path = "/groups/{group}/members", consumes = "application/json")
   public ResponseEntity<String> postMember(@PathVariable(value = "group") String group, @RequestBody byte[] body) {
@@ -46,6 +50,15 @@ public class MockGSuite {
     }
   }
 
+  @PostMapping(path = "/addRoleId", consumes = "application/json")
+  public ResponseEntity<HttpStatus> addHqRoleIdToGsuite(@RequestBody HqJobRole jobRole) {
+    User user = new User();
+    user.setId(gsuiteIds.get(jobRole.getUniqueEmployeeId()));
+    user.setExternalIds("External"+jobRole.getUniqueRoleId());
+    hqJobRoles.add(user);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
   @PostMapping(path = "/users", consumes = "application/json")
   public ResponseEntity<User> postUser(@RequestBody byte[] body) {
     try {
@@ -55,12 +68,17 @@ public class MockGSuite {
       user.setId(id);
       String extractedMessage = extractMessage(body);
       JsonNode rootNode = objectMapper.readTree(extractedMessage);
-      String empId = rootNode.path("externalIds").get(0).path("value").asText();
+      String empId = null;
+      if(!rootNode.path("externalIds").isValueNode()) {
+        empId = rootNode.path("recoveryEmail").asText().substring(0,8);
+        System.out.println(empId);
+      } else empId = rootNode.path("externalIds").get(0).path("value").asText();
       String email = rootNode.path("primaryEmail").asText();
 
+      gsuiteIds.put(empId, id);
       emailAddresses.put(empId, email);
       addMessage(email, extractedMessage);
-      return new ResponseEntity<User>(user, HttpStatus.OK);
+      return new ResponseEntity<>(user, HttpStatus.OK);
     } catch (IOException e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -95,7 +113,14 @@ public class MockGSuite {
     }
 
     grps.setGroups(groupsList);
-    return new ResponseEntity<Groups>(grps, HttpStatus.OK);
+    return new ResponseEntity<>(grps, HttpStatus.OK);
+  }
+
+  @GetMapping(path = "/users")
+  public ResponseEntity<Users> getRoleIds(@RequestParam String domain, @RequestParam String query) {
+    Users users = new Users();
+    users.setUsers(hqJobRoles);
+    return new ResponseEntity<>(users, HttpStatus.OK);
   }
 
   private String extractMessage(byte[] body) throws IOException {
@@ -132,6 +157,7 @@ public class MockGSuite {
   public ResponseEntity<?> delete() {
     gsuiteMessages.clear();
     groups.clear();
+    hqJobRoles.clear();
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
