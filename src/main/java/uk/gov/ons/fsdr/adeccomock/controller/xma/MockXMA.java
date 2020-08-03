@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MockXMA {
   private final Map<String, List<String>> xmaMessages = Collections.synchronizedMap(new LinkedHashMap<>());
+  private final Map<String, List<String>> xmaDeviceAllocationMessages = Collections.synchronizedMap(new LinkedHashMap<>());
   private final Map<String, String> employeeIds = new ConcurrentHashMap<>();
   private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -30,15 +31,26 @@ public class MockXMA {
       String id = null;
       String roleId = null;
       XmaResponse xmaResponse = new XmaResponse();
-      if(body.contains("_DeletionUser")) {
-        while(elements.hasNext()){
+      if(body.contains("_eTrackerIMEI")) {
+        while (elements.hasNext()) {
           JsonNode node = elements.next();
           String name = node.path("name").asText();
-          if ("_DeletionUser".equals(name)) {
+          if ("_eTrackerAllocUserObj".equals(name)) {
             id = node.path("value").asText();
           }
         }
-      } else if(!body.contains("\"key\":")) {
+        xmaResponse.setKey(id);
+        addDevicesMessage(id, body);
+      } else {
+        if (body.contains("_DeletionUser")) {
+          while (elements.hasNext()) {
+            JsonNode node = elements.next();
+            String name = node.path("name").asText();
+            if ("_DeletionUser".equals(name)) {
+              id = node.path("value").asText();
+            }
+          }
+        } else if (!body.contains("\"key\":")) {
           while (elements.hasNext()) {
             JsonNode node = elements.next();
             String name = node.path("name").asText();
@@ -48,11 +60,12 @@ public class MockXMA {
           }
           id = UUID.randomUUID().toString();
           employeeIds.put(roleId, id);
-      } else {
-        id = rootNode.path("key").asText();
+        } else {
+          id = rootNode.path("key").asText();
+        }
+        xmaResponse.setKey(id);
+        addEmployeeMessage(id, body);
       }
-      xmaResponse.setKey(id);
-      addMessage(id, body);
       return new ResponseEntity<XmaResponse>(xmaResponse, HttpStatus.OK);
     } catch (IOException e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -76,6 +89,23 @@ public class MockXMA {
     return new ResponseEntity<List<String>>(messages, HttpStatus.OK);
   }
 
+  @GetMapping("/messages/devices")
+  public ResponseEntity<List<String>> getAllDeviceMessages() {
+    List<String> all = new ArrayList<String>();
+    Collection<List<String>> messages = xmaDeviceAllocationMessages.values();
+    for (List<String> list : messages) {
+      all.addAll(list);
+    }
+    return new ResponseEntity<>(all, HttpStatus.OK);
+  }
+
+  @GetMapping("/messages/devices/{xmaId}")
+  public ResponseEntity<List<String>> getDevicesMessages(@PathVariable("xmaId") String xmaId) {
+    log.info("/xma/messages/"+xmaId);
+    List<String> messages = xmaDeviceAllocationMessages.get(xmaId);
+    return new ResponseEntity<>(messages, HttpStatus.OK);
+  }
+
   @GetMapping("/id")
   public ResponseEntity<String> getId(@RequestParam(name="roleId") String roleId) {
     if(employeeIds.containsKey(roleId)) {
@@ -88,14 +118,23 @@ public class MockXMA {
   public ResponseEntity<?> delete() {
     xmaMessages.clear();
     employeeIds.clear();
+    xmaDeviceAllocationMessages.clear();
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  private void addMessage(String email, String body) {
+  private void addEmployeeMessage(String email, String body) {
     log.info("xma post id:" + email);
     List<String> messages = xmaMessages.get(email);
     if (messages == null) messages = new ArrayList<>();
     messages.add(body);
     xmaMessages.put(email, messages);
+  }
+
+  private void addDevicesMessage(String xmaId, String body) {
+    log.info("xma post id:" + xmaId);
+    List<String> messages = xmaDeviceAllocationMessages.get(xmaId);
+    if (messages == null) messages = new ArrayList<>();
+    messages.add(body);
+    xmaDeviceAllocationMessages.put(xmaId, messages);
   }
 }
