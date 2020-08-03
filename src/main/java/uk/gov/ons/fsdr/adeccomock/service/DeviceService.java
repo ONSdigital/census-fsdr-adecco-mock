@@ -20,16 +20,16 @@ public class DeviceService {
   @Autowired
   private ObjectMapper objectMapper;
 
-  public void publishMessage(String onsId, String phoneNumber) throws JsonProcessingException {
-    DeviceDto deviceDto = buildDevice(onsId, phoneNumber);
+  public void publishMessage(String onsId, String phoneNumber, String imeiNumber) throws JsonProcessingException {
+    DeviceDto deviceDto = buildDevice(onsId, phoneNumber, imeiNumber);
     String message = objectMapper.writeValueAsString(deviceDto);
     pubSubTemplate.publish("device-info", message);
 
   }
 
-  private DeviceDto buildDevice(String onsId, String phoneNumber) {
+  private DeviceDto buildDevice(String onsId, String phoneNumber, String imeiNumber) {
     DeviceDto deviceDto = new DeviceDto();
-    deviceDto.setImeiNumber(UUID.randomUUID().toString());
+    deviceDto.setImeiNumber(imeiNumber);
     Account account = new Account();
     account.setName(onsId);
     account.setType("test");
