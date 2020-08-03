@@ -21,7 +21,6 @@ public class AdeccoEmployeeFactory {
         .employeeId(employee.getUniqueEmployeeId())
         .firstName(employee.getFirstName())
         .lastName(employee.getSurname())
-        .mobileStaff(String.valueOf(employee.getMobileStaff()))
         .addressLine1(employee.getAddress1())
         .addressLine2(employee.getAddress2())
         .town(employee.getTown())

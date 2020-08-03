@@ -36,7 +36,7 @@ public class ResponseManager {
   }
 
   public void addResponse(AdeccoResponse adeccoResponse) {
-    String employeeId = adeccoResponse.getAdeccoResponseWorker().getEmployeeId();
+    String employeeId = adeccoResponse.getResponseContact().getEmployeeId();
     List<AdeccoResponse>  responses = new ArrayList<AdeccoResponse>();
     if (responseDirectory.containsKey(employeeId)) {
       responses.addAll(responseDirectory.get(employeeId));
