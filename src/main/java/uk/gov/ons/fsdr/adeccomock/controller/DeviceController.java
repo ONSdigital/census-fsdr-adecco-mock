@@ -18,9 +18,10 @@ public class DeviceController {
   private DeviceService deviceService;
 
   @PostMapping("/createPubSub")
-  public ResponseEntity<?> createDevice(@RequestParam(name="onsId") String onsId, @RequestParam(name="phoneNumber") String phoneNumber)
+  public ResponseEntity<?> createDevice(@RequestParam(name = "onsId") String onsId,
+      @RequestParam(name = "phoneNumber") String phoneNumber, @RequestParam(name = "imeiNumber") String imeiNumber)
       throws JsonProcessingException {
-    deviceService.publishMessage(onsId, phoneNumber);
+    deviceService.publishMessage(onsId, phoneNumber, imeiNumber);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }
