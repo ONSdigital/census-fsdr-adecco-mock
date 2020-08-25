@@ -162,6 +162,7 @@ public class MockGSuite {
     gsuiteMessages.clear();
     groups.clear();
     hqJobRoles.clear();
+    chromeOsDeviceList.clear();
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
