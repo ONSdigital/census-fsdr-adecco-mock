@@ -92,8 +92,9 @@ dependencies {
     compile 'javax.xml.ws:jaxws-api:2.2.6'
 
     compile(files(genJaxb.classesDir).builtBy(genJaxb))
-    compile("uk.gov.ons.census.fwmt:census-fwmt-events:1.0.24-RELEASE")
-
+    compile('uk.gov.ons.census.fwmt:census-fwmt-events:1.0.40-SNAPSHOT') {
+        exclude group: 'com.fasterxml.jackson.dataformat', module: 'jackson-dataformat-xml'
+    }
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
@@ -102,14 +103,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    compile("uk.gov.ons:census-fsdr-common:0.0.14-SNAPSHOT")
+    compile("uk.gov.ons:census-fsdr-common:0.0.16-SNAPSHOT")
     compile('io.springfox:springfox-swagger2:2.9.2')
     compile('io.springfox:springfox-swagger-ui:2.9.2')
     compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'
-    
+
     compile 'com.google.api-client:google-api-client:1.23.0'
 	compile 'com.google.apis:google-api-services-admin-directory:directory_v1-rev53-1.20.0'
-    
+
     compile 'org.apache.mina:mina-core:1.1.7'
     compile 'org.apache.sshd:sshd-core:1.7.0'
     compile("com.opencsv:opencsv:5.0")
