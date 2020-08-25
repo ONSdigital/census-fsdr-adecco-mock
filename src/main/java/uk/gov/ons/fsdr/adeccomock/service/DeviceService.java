@@ -5,12 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gcp.pubsub.core.PubSubTemplate;
 import org.springframework.stereotype.Service;
-import uk.gov.ons.fsdr.common.dto.devicelist.Account;
 import uk.gov.ons.fsdr.common.dto.devicelist.DeviceDto;
-
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 @Service
 public class DeviceService {
@@ -29,11 +24,7 @@ public class DeviceService {
 
   private DeviceDto buildDevice(String onsId, String phoneNumber, String imeiNumber) {
     DeviceDto deviceDto = new DeviceDto();
-    deviceDto.setImeiNumber(imeiNumber);
-    Account account = new Account();
-    account.setName(onsId);
-    account.setType("test");
-    deviceDto.setAccounts(List.of(account));
+    deviceDto.setOnsId(onsId);
     deviceDto.setPhoneNumber(phoneNumber);
 
     return deviceDto;
