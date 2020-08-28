@@ -1,7 +1,5 @@
 package uk.gov.ons.fsdr.adeccomock.configuration;
 
-import java.util.Arrays;
-
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -24,7 +22,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Configuration
 public class QueueConfig {
 
-  public static final String EVENTS_QUEUE = "mock.events";
+//  public static final String EVENTS_QUEUE = "mock.events";
   public static final String EVENTS_TOPIC_QUEUE = "mock.events.topic";
   public static final String FFA_EVENTS_EXCHANGE = "FFA.Events.Exchange";
 
@@ -33,20 +31,20 @@ public class QueueConfig {
     return new RabbitAdmin(connectionFactory);
   }
 
-  @Bean
-  public Queue eventQueue() {
-    return QueueBuilder.durable(EVENTS_QUEUE).build();
-  }
+//  @Bean
+//  public Queue eventQueue() {
+//    return QueueBuilder.durable(EVENTS_QUEUE).build();
+//  }
 
   @Bean
   public Queue eventTopicQueue() {
     return QueueBuilder.durable(EVENTS_TOPIC_QUEUE).build();
   }
 
-  @Bean
-  public Binding eventBinding(@Qualifier("eventQueue") Queue queue, FanoutExchange fanoutExchange) {
-    return BindingBuilder.bind(queue).to(fanoutExchange);
-  }
+//  @Bean
+//  public Binding eventBinding(@Qualifier("eventQueue") Queue queue, FanoutExchange fanoutExchange) {
+//    return BindingBuilder.bind(queue).to(fanoutExchange);
+//  }
 
   @Bean("mockEventsTopicExchange")
   public TopicExchange mockEventsTopicExchange() {

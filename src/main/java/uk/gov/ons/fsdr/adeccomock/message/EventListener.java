@@ -1,7 +1,6 @@
 package uk.gov.ons.fsdr.adeccomock.message;
 
 import static uk.gov.ons.fsdr.adeccomock.configuration.GatewayEventsConfig.FSDR_COMPLETE;
-import static uk.gov.ons.fsdr.adeccomock.configuration.QueueConfig.EVENTS_QUEUE;
 import static uk.gov.ons.fsdr.adeccomock.configuration.QueueConfig.EVENTS_TOPIC_QUEUE;
 import static uk.gov.ons.fsdr.adeccomock.service.AdeccoMockService.totalCount;
 
@@ -19,7 +18,7 @@ import uk.gov.ons.census.fwmt.events.factory.EventTrigger;
 import uk.gov.ons.census.fwmt.events.factory.EventTriggerFactory;
 
 @Service
-@RabbitListener(queues = {EVENTS_QUEUE, EVENTS_TOPIC_QUEUE})
+@RabbitListener(queues = {EVENTS_TOPIC_QUEUE})
 @Slf4j
 public class EventListener {
 
