@@ -75,7 +75,7 @@ public class MockGSuite {
       String empId = null;
       System.out.println(extractedMessage);
       if(!extractedMessage.contains("externalIds")) {
-        empId = rootNode.path("recoveryEmail").asText().substring(0,8);
+        empId = rootNode.path("recoveryEmail").asText().split("@")[0];
       } else empId = rootNode.path("externalIds").get(0).path("value").asText();
       String email = rootNode.path("primaryEmail").asText();
 
@@ -121,7 +121,7 @@ public class MockGSuite {
   }
 
   @GetMapping(path = "/users")
-  public ResponseEntity<Users> getRoleIds(@RequestParam String domain, @RequestParam String query) {
+  public ResponseEntity<Users> getRoleIds(@RequestParam String domain, @RequestParam String maxResults, @RequestParam String query) {
     Users users = new Users();
     users.setUsers(hqJobRoles);
     return new ResponseEntity<>(users, HttpStatus.OK);
