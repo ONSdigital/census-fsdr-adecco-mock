@@ -14,6 +14,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.GZIPInputStream;
 
+import com.google.api.services.admin.directory.model.ChromeOsDevice;
+import com.google.api.services.admin.directory.model.ChromeOsDevices;
 import com.google.api.services.admin.directory.model.Group;
 import com.google.api.services.admin.directory.model.Groups;
 import com.google.api.services.admin.directory.model.User;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.gov.ons.fsdr.common.dto.HqJobRole;
+import uk.gov.ons.fsdr.common.dto.devicelist.DeviceDto;
 
 @RestController
 @RequestMapping("/gsuite")
@@ -33,7 +36,8 @@ public class MockGSuite {
   private final Map<String, List<String>> groups = Collections.synchronizedMap(new LinkedHashMap<>());
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final Map<String, String> emailAddresses = new ConcurrentHashMap<>();
-  private final List<User> hqJobRoles = Collections.synchronizedList(new ArrayList());
+  private final List<User> hqJobRoles = Collections.synchronizedList(new ArrayList<>());
+  private final List<ChromeOsDevice> chromeOsDeviceList = Collections.synchronizedList(new ArrayList<>());
   private final Map<String, String> gsuiteIds = Collections.synchronizedMap(new LinkedHashMap<>());
 
   @PostMapping(path = "/groups/{group}/members", consumes = "application/json")
@@ -71,7 +75,7 @@ public class MockGSuite {
       String empId = null;
       System.out.println(extractedMessage);
       if(!extractedMessage.contains("externalIds")) {
-        empId = rootNode.path("recoveryEmail").asText().substring(0,8);
+        empId = rootNode.path("recoveryEmail").asText().split("@")[0];
       } else empId = rootNode.path("externalIds").get(0).path("value").asText();
       String email = rootNode.path("primaryEmail").asText();
 
@@ -117,7 +121,7 @@ public class MockGSuite {
   }
 
   @GetMapping(path = "/users")
-  public ResponseEntity<Users> getRoleIds(@RequestParam String domain, @RequestParam String query) {
+  public ResponseEntity<Users> getRoleIds(@RequestParam String domain, @RequestParam String maxResults, @RequestParam String query) {
     Users users = new Users();
     users.setUsers(hqJobRoles);
     return new ResponseEntity<>(users, HttpStatus.OK);
@@ -158,7 +162,29 @@ public class MockGSuite {
     gsuiteMessages.clear();
     groups.clear();
     hqJobRoles.clear();
+    chromeOsDeviceList.clear();
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @GetMapping("customer/{customerId}/devices/chromeos")
+  public ResponseEntity<ChromeOsDevices> getChromebooks(@PathVariable("customerId") String customerId) {
+    ChromeOsDevices chromeOsDevices = new ChromeOsDevices();
+    chromeOsDevices.setChromeosdevices(chromeOsDeviceList);
+    return new ResponseEntity<>(chromeOsDevices, HttpStatus.OK);
+  }
+
+  @PostMapping("/device")
+  public ResponseEntity<HttpStatus> postDevice(@RequestBody DeviceDto deviceDto) {
+    ChromeOsDevice chromeOsDevice = new ChromeOsDevice();
+    chromeOsDevice.setSerialNumber(deviceDto.getDeviceId());
+    ChromeOsDevice.RecentUsers recentUsers = new ChromeOsDevice.RecentUsers();
+    recentUsers.setEmail(deviceDto.getOnsId());
+    chromeOsDevice.setRecentUsers(List.of(recentUsers));
+
+    chromeOsDeviceList.add(chromeOsDevice);
+
+    return new ResponseEntity<>(HttpStatus.OK);
+
   }
 
   private String extractFile(GZIPInputStream zipIn) throws IOException {

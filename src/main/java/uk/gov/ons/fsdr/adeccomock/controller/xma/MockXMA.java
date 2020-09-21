@@ -31,7 +31,7 @@ public class MockXMA {
       String id = null;
       String roleId = null;
       XmaResponse xmaResponse = new XmaResponse();
-      if(body.contains("_eTrackerIMEI")) {
+      if(body.contains("_eTrackerIMEI")|| body.contains("_eTrackerDevicePhoneNumber")) {
         while (elements.hasNext()) {
           JsonNode node = elements.next();
           String name = node.path("name").asText();
