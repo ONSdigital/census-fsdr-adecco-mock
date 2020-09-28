@@ -21,7 +21,7 @@ public class DeviceController {
   public ResponseEntity<?> createDevice(@RequestParam(name = "onsId") String onsId,
       @RequestParam(name = "phoneNumber") String phoneNumber, @RequestParam(name = "imeiNumber") String imeiNumber)
       throws JsonProcessingException {
-    deviceService.publishMessage(onsId, phoneNumber, imeiNumber);
+    deviceService.publishMessage(onsId, "+" +phoneNumber.trim(), imeiNumber);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }
