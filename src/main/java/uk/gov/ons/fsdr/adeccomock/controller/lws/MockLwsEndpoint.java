@@ -28,7 +28,7 @@ public class MockLwsEndpoint {
     System.out.println(request.toString());
 
     InsertUpdatePerson4Response response = new InsertUpdatePerson4Response();
-    response.setInsertUpdatePerson4Result("2");
+    response.setInsertUpdatePerson4Result("\"2\"");
 
     return new JAXBElement(new QName(NAMESPACE_URI, InsertUpdatePerson4Response.class.getSimpleName()), InsertUpdatePerson4Response.class, response);
   }
