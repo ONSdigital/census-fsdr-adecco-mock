@@ -14,8 +14,6 @@ public class GatewayEventsConfig {
   public GatewayEventManager gatewayEventManager() {
     GatewayEventManager gatewayEventManager = new GatewayEventManager();
     gatewayEventManager.setSource(AdeccoMock.APPLICATION_NAME);
-    gatewayEventManager.addErrorEventTypes(new String[] {});
-    gatewayEventManager.addEventTypes(new String[] {FSDR_COMPLETE});
     return gatewayEventManager;
   }
 }
