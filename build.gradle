@@ -92,7 +92,7 @@ dependencies {
     compile 'javax.xml.ws:jaxws-api:2.2.6'
 
     compile(files(genJaxb.classesDir).builtBy(genJaxb))
-    compile('uk.gov.ons.census.ffa:census-ffa-events:1.0.41-SNAPSHOT') {
+    compile('uk.gov.ons.census.ffa:census-ffa-events:1.0.42-SNAPSHOT') {
         exclude group: 'com.fasterxml.jackson.dataformat', module: 'jackson-dataformat-xml'
     }
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -103,7 +103,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    compile("uk.gov.ons:census-fsdr-common:0.0.24-RELEASE")
+    compile("uk.gov.ons:census-fsdr-common:0.0.25-RELEASE")
     compile('io.springfox:springfox-swagger2:2.9.2')
     compile('io.springfox:springfox-swagger-ui:2.9.2')
     compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'

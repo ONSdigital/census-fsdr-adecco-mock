@@ -74,8 +74,7 @@ public class EventListener {
 
       }
       if (xma >= totalCount && snow >= totalCount && gsuite >= totalCount) {
-        eventTrigger.test(null).eventType(FSDR_COMPLETE).send();
-//        gatewayEventManager.triggerEvent("<N/A>", FSDR_COMPLETE);
+        eventTrigger.log(null).eventType(FSDR_COMPLETE).send();
         xma = 0;
         snow = 0;
         gsuite = 0;
