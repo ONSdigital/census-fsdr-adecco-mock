@@ -38,3 +38,10 @@ mock-service-now
 /xma/messages/reset - delete records in mock
 /xma/<other ones> -  fsdr will call these
 
+
+
+## Declared Queues
+
+Mock.Events(topic) - ACTION.RESPONSE.PRODUCER.SERVICE_NOW -> FFA.Events.Exchange
+Mock.Events(topic) - ACTION.RESPONSE.PRODUCER.XMA         -> FFA.Events.Exchange
+Mock.Events(topic) - SERVICE.GSUITE                       -> FFA.Events.Exchange

@@ -1,11 +1,10 @@
 package uk.gov.ons.fsdr.adeccomock.message;
 
 import static uk.gov.ons.fsdr.adeccomock.configuration.GatewayEventsConfig.FSDR_COMPLETE;
-import static uk.gov.ons.fsdr.adeccomock.configuration.QueueConfig.EVENTS_QUEUE;
+import static uk.gov.ons.fsdr.adeccomock.configuration.QueueConfig.EVENTS_TOPIC_QUEUE;
 import static uk.gov.ons.fsdr.adeccomock.service.AdeccoMockService.totalCount;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.PostConstruct;
 
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -13,17 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import uk.gov.ons.census.fwmt.events.component.GatewayEventManager;
 import uk.gov.ons.census.fwmt.events.data.GatewayErrorEventDTO;
 import uk.gov.ons.census.fwmt.events.data.GatewayEventDTO;
+import uk.gov.ons.census.fwmt.events.factory.EventTrigger;
+import uk.gov.ons.census.fwmt.events.factory.EventTriggerFactory;
 
 @Service
-@RabbitListener(queues = EVENTS_QUEUE)
+@RabbitListener(queues = {EVENTS_TOPIC_QUEUE})
 @Slf4j
 public class EventListener {
-
-  @Autowired
-  private GatewayEventManager gatewayEventManager;
 
   private static int xma = 0;
   private static int snow = 0;
@@ -32,6 +29,17 @@ public class EventListener {
   private Object lock = new Object();
 
   private String lastSnowId = null;
+  
+  @Autowired
+  private EventTriggerFactory eventTriggerFactory;
+  
+  private EventTrigger eventTrigger;
+  
+  @PostConstruct
+  public void setUpEventTrigger() {
+	  eventTrigger = eventTriggerFactory.createEventTrigger(this.getClass(), "MOCK.FSDR");
+  }
+
 
   @RabbitHandler
   public void recieveMessage(GatewayErrorEventDTO eventDTO) {
@@ -66,7 +74,7 @@ public class EventListener {
 
       }
       if (xma >= totalCount && snow >= totalCount && gsuite >= totalCount) {
-        gatewayEventManager.triggerEvent("<N/A>", FSDR_COMPLETE);
+        eventTrigger.log(null).eventType(FSDR_COMPLETE).send();
         xma = 0;
         snow = 0;
         gsuite = 0;
