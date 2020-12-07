@@ -92,7 +92,7 @@ dependencies {
     compile 'javax.xml.ws:jaxws-api:2.2.6'
 
     compile(files(genJaxb.classesDir).builtBy(genJaxb))
-    compile('uk.gov.ons.census.ffa:census-ffa-events:1.0.42-SNAPSHOT') {
+    compile('uk.gov.ons.census.ffa:census-ffa-events:1.0.42-RELEASE') {
         exclude group: 'com.fasterxml.jackson.dataformat', module: 'jackson-dataformat-xml'
     }
     implementation 'org.springframework.boot:spring-boot-starter-web'
