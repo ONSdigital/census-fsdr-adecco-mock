@@ -13,6 +13,8 @@ import java.util.UUID;
 
 public class AdeccoEmployeeFactory {
 
+  private static long cr_id = 0;
+  
   public static AdeccoResponse buildAdeccoResponse(Employee employee) {
     AdeccoResponseJob job = AdeccoResponseJob.builder()
         .jobRole(employee.getJobRole())
@@ -26,7 +28,7 @@ public class AdeccoEmployeeFactory {
         .town(employee.getTown())
         .county(employee.getCounty())
         .postcode(employee.getPostcode())
-        .personalEmail(employee.getPersonalEmailAddress())
+        .personalEmail(employee.getFirstName()+employee.getSurname()+"yamail.com")
         .telephoneNo1(employee.getTelephoneNumberContact1())
         .emergencyContact(employee.getEmergencyContactFullName())
         .emergencyContactNumber1(employee.getEmergencyContactMobileNo())
@@ -48,6 +50,7 @@ public class AdeccoEmployeeFactory {
         .status("ASSIGNED")
         .crStatus("ACTIVE")
         .adeccoResponseJobRoleCode(adeccoResponseJobRoleCode)
+        .closingReportId(String.valueOf(cr_id++))
         .build();
   }
 
